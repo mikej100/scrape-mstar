@@ -1,4 +1,5 @@
 import scrapy
+import re
 
 
 class Funds1Spider(scrapy.Spider):
@@ -15,9 +16,10 @@ class Funds1Spider(scrapy.Spider):
             yield scrapy.Request(url=urlStem + fundId, callback=self.parse)
 
     def parse(self, response):
-        self.log(f'response url {response.url}')
-        fundId = response.url.split("?")[1]
-        filename = f'funds-{fundId}.html'
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log(f'Saved file {filename}')
+        isinText = response.xpath("//td[contains(.,'ISIN')]/following-sibling::*/text()").getall()[1]
+        priceText =  response.xpath("//td[contains(.,'NAV')]/following-sibling::*/text()").getall()[1]
+        yield {
+            "isin" : isinText,
+            "currency" : re.search("^.{3}", priceText).group(),
+            "price": re.search(r"[0-9]+\.?[0-9]+",priceText).group()
+        }

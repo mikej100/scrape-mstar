@@ -16,10 +16,12 @@
             "type": "python",
             "request": "launch",
             "module": "scrapy",
-            "cwd": "C:\\Users\\User\\Mike Jennings\\Investment club - General\\analysis\\20210714_morningstar_data",
+            "cwd": "C:\\Users\\User\\Mike Jennings\\Investment club - General\\analysis\\20210714_morningstar_data\\morningstar",
             "args": [
                 "crawl",
-                "funds1"
+                "funds1",
+                "-O",
+                "funds1.json"
             ],
             "console": "integratedTerminal"
         },
@@ -31,7 +33,7 @@
             "cwd": "C:\\Users\\User\\Mike Jennings\\Investment club - General\\analysis\\20210714_morningstar_data",
             "args": [
                 "crawl",
-                "funds1"
+                "funds1",
             ],
             "console": "integratedTerminal"
         }
