@@ -22,7 +22,7 @@
                 "crawl",
                 "funds1",
                 "-O",
-                "funds1.json"
+                "..\\..\\..\\data\\analysis\\funds1.json"
             ],
             "console": "integratedTerminal"
         },

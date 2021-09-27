@@ -67,9 +67,6 @@ class Funds1Spider(scrapy.Spider):
             aa_data = "n/a"
         # aa_json = aa_df.to_json(orient="records")
 
-
-
-
         data = {
             "isin" : isin_text,
             "name": name_text,
@@ -82,18 +79,22 @@ class Funds1Spider(scrapy.Spider):
             }
         yield data
 
+
+
     def parse_equities(self, response):
+        # Cannot fetch the following data from page
+        # sector_text = response.xpath("//h3[text()='Sector']/parent::*/text()").getall()
         isin_text =	response.xpath("//td[@id='Col0Isin']/text()").getall()[0]
         price_text = response.xpath("//span[@id='Col0Price']/text()").getall()[0]
         currency_text = response.xpath("//p[@id='Col0PriceTime']/text()").getall()[2]
         yield {
             "isin" : isin_text,
             "currency" : re.search(r"\|\s(\w{3})", currency_text).group(1),
-            "price": price_text
+            "price": price_text,
         }
 
     def get_ms_symbols(self):
-        inv_book_name = "../../../20210622 Investments book.xlsx"
+        inv_book_name = "../../../20210716 Investments book.xlsx"
         funds_sheet_name = "FundsBase"
 
         df =  pd.read_excel(inv_book_name, sheet_name = funds_sheet_name)
