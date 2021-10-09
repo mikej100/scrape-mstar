@@ -27,6 +27,34 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Funds2",
+            "type": "python",
+            "request": "launch",
+            "module": "scrapy",
+            "cwd": "C:\\Users\\User\\Mike Jennings\\Investment club - General\\analysis\\20210714_morningstar_data\\morningstar",
+            "args": [
+                "crawl",
+                "funds2",
+                "-O",
+                "..\\..\\..\\data\\analysis\\funds2.json"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Funds3",
+            "type": "python",
+            "request": "launch",
+            "module": "scrapy",
+            "cwd": "C:\\Users\\User\\Mike Jennings\\Investment club - General\\analysis\\20210714_morningstar_data\\morningstar",
+            "args": [
+                "crawl",
+                "funds3",
+                "-O",
+                "..\\..\\..\\data\\analysis\\funds3.json"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Test",
             "type": "python",
             "request": "launch",
