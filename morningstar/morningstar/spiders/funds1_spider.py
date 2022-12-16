@@ -8,7 +8,7 @@ from . import investmentsbook as ib
 """Base Morningstar urls for the specific security types.
 """
 url_funds = "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}"
-url_cefs = "https://tools.morningstar.co.uk/uk/cefreport/default.aspx?SecurityToken={sym}&tab={view}"
+url_cefs = "https://www.morningstar.co.uk/uk/report/cef/quote.aspx?t={sym}&tab={view}"
 url_equities = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=0{view}&SecurityToken={sym}%5d3%5d0%5dE0WWE$$ALL"
 #url_equities = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?Site=uk{view}&id={sym}"
 
@@ -23,27 +23,30 @@ class Funds1Spider(scrapy.Spider):
     def start_requests(self):
         symbols = ib.Investmentsbook.get_ms_symbols()
         url_stem_equities = 'https://tools.morningstar.co.uk/uk/stockreport/default.aspx?Site=uk&id='
-        for symbol in symbols['fund_symbols']:
-            yield scrapy.Request(
-                url=url_funds.format(sym=symbol, view="0"),
-                callback=self.parse_funds_summ,
-                cb_kwargs=dict(symbol=symbol))
+#        for symbol in symbols['fund_symbols']:
+#            yield scrapy.Request(
+#                url=url_funds.format(sym=symbol, view="0"),
+#                callback=self.parse_funds_summ,
+#                cb_kwargs=dict(symbol=symbol))
 
         for symbol in symbols['cef_symbols']:
             yield scrapy.Request(
-                url=url_cefs.format(sym=symbol, view=""),
+                url=url_cefs.format(sym=symbol, view="0"),
                 callback=self.parse_cefs_summ,
-                cb_kwargs=dict(symbol=symbol))
-
-        for symbol in symbols['equity_symbols']:
-            yield scrapy.Request(
-                url=url_equities.format(sym=symbol, view=""),
-                callback=self.parse_equities_summ,
+                meta={"playwright": True},
                 cb_kwargs=dict(symbol=symbol)
-            )
+                )
+
+#        for symbol in symbols['equity_symbols']:
+#            yield scrapy.Request(
+#                url=url_equities.format(sym=symbol, view=""),
+#                callback=self.parse_equities_summ,
+#                cb_kwargs=dict(symbol=symbol)
+#            )
 
 
     def parse_funds_summ(self, response, symbol):
+        self.logger.info('Funds1 parsing funds')
         isin_text = response.xpath("//td[text()='ISIN']/following-sibling::*/text()").getall()[1]
         name_text = response.xpath("//div[@class='snapshotTitleBox']/h1/text()").getall()[0]
 
@@ -93,6 +96,7 @@ class Funds1Spider(scrapy.Spider):
         yield data
 
     def parse_cefs_summ(self, response, symbol):
+        yield {"url": response.url}
         time_text = response.xpath("//p[@id='Col0PriceTime']/text()").get()
 
         data = {
@@ -100,7 +104,7 @@ class Funds1Spider(scrapy.Spider):
             "symbol": symbol,
             "name": response.xpath("//span[@class='securityName']/text()").get(),
             "price": response.xpath("//span[@id='Col0Price']/text()").get(),
-            "currency" : response.xpath("//span[@id='Col0Price']/text()").get(),
+            "currency" : response.xpath("//span[@id='Col0Price']/abbr/text()").get(),
             "date": re.search(r"\d{2}/\d{2}/\d{4}", time_text).group()
             }
         yield data

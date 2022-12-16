@@ -9,6 +9,7 @@
 
 BOT_NAME = 'morningstar'
 
+#SPIDER_MODULES = ['morningstar.spiders']
 SPIDER_MODULES = ['morningstar.spiders']
 NEWSPIDER_MODULE = 'morningstar.spiders'
 
@@ -86,3 +87,23 @@ ROBOTSTXT_OBEY = False
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+#
+# Settings added for Morningstar project.
+# =======================================
+#
+# See https://docs.scrapy.org/en/latest/topics/request-response.html
+REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
+#
+LOG_FILE = 'logs\scrapy.log'
+#
+# Download handlers for scrapy-playwright and use asyncio-based Twisted reactor
+# see https://github.com/scrapy-plugins/scrapy-playwright
+#
+DOWNLOAD_HANDLERS = {
+     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+ }
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+#import asyncio
+#asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+####PLAYWRIGHT_BROWSER_TYPE = "chromium"
