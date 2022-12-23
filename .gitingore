@@ -3,6 +3,7 @@
 # ------------------------
 
 logs/
+morningstar/logs/
 data/
 venv/
 /.html

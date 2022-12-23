@@ -13,6 +13,9 @@ In Terminal enter
 ### Check configuration
 Name of the investments workbook
 
+$pip install scrapy
+$pip install scrapy-playwright
+$ playwright install
 
 
 Activate "Select and Run" Activity.
