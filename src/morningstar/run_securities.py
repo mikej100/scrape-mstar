@@ -16,7 +16,7 @@ process = CrawlerProcess(
                  "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
              },
              "CONCURRENT_REQUESTS": 32,
-             "FEED_URI":'Products.jl',
+             "FEED_URI":"./data/securities_data.json",
              "FEED_FORMAT":'jsonlines',
              "LOG_FILE" : "logs/scrapy.log"
          }
