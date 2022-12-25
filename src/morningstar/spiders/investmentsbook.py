@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import re
 # TODO make into singleton so open book just once.
 
@@ -26,7 +27,7 @@ class Investmentsbook():
                 ]
                 }
         else:
-            inv_book_name = "../../../20221209 Investments book.xlsx"
+            inv_book_name = os.environ["INVESTMENTS_BOOK"]
             sec_sheet_name = "SecBase"
 
             df = pd.read_excel(inv_book_name, sheet_name=sec_sheet_name)

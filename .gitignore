@@ -4,6 +4,7 @@
 
 logs/
 data/
+env/
 venv/
 /.html
 /.pyc

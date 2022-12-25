@@ -5,10 +5,10 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 import asyncio
 
-logger = logging.getLogger("runScript")
+logger = logging.getLogger("LinuxPWright")
 
 class LinuxPWright(scrapy.Spider):
-    name = "playwright1"
+    name = "linuxPWright"
     #asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
     def start_requests(self):

@@ -27,6 +27,13 @@
             "program": "${file}",
             "console": "integratedTerminal"
         },{
+            "name": "AllSecSpiders",
+            "type": "python",
+            "cwd": "${workspaceFolder}",
+            "program": "src/morningstar/run_securities.py",
+            "request": "launch",
+            "console": "integratedTerminal"
+        },{
             "name": "Run py script",
             "type": "python",
             "request": "launch",
@@ -51,12 +58,11 @@
             "type": "python",
             "request": "launch",
             "module": "scrapy",
-            "cwd": "C:\\Users\\User\\Mike Jennings\\Investment club - General\\analysis\\20210714_morningstar_data\\morningstar",
             "args": [
                 "crawl",
                 "funds1",
                 "-O",
-                "..\\..\\..\\data\\analysis\\funds1.json"
+                "./data/funds1.json"
             ],
             "console": "integratedTerminal"
         },

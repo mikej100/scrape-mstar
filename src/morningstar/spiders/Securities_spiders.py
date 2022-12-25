@@ -2,11 +2,15 @@ import scrapy
 import re
 import pandas as pd
 import numpy as np
+import logging
 from os.path import exists
 from . import investmentsbook as ib
 
 """Base Morningstar urls for the specific security types.
 """
+logger = logging.getLogger("Securities_spiders")
+logger.info('Starting')
+
 url_funds = "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}"
 url_cefs = "https://www.morningstar.co.uk/uk/report/cef/quote.aspx?t={sym}&tab={view}"
 url_equities = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=0{view}&SecurityToken={sym}%5d3%5d0%5dE0WWE$$ALL"
@@ -29,6 +33,7 @@ class Funds1Spider(scrapy.Spider):
 #                callback=self.parse_funds_summ,
 #                cb_kwargs=dict(symbol=symbol))
 
+        logger.info("Starting cef symbols")
         for symbol in symbols['cef_symbols']:
             yield scrapy.Request(
                 url=url_cefs.format(sym=symbol, view="0"),
