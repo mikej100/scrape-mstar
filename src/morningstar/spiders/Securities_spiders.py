@@ -5,6 +5,7 @@ import numpy as np
 import logging
 import datetime
 from os.path import exists
+import json
 from scrapy_playwright.page import PageMethod
 
 from . import investmentsbook as ib
@@ -29,6 +30,10 @@ class Funds1Spider(scrapy.Spider):
 
     def start_requests(self):
         symbols = ib.Investmentsbook.get_ms_symbols()
+        if True:  # switch to dump symbol list as json
+            with open("data/symbols.json", "w") as outfile:
+                outfile.write(json.dumps(symbols))
+    
         url_stem_equities = 'https://tools.morningstar.co.uk/uk/stockreport/default.aspx?Site=uk&id='
 #        for symbol in symbols['fund_symbols']:
 #            yield scrapy.Request(

@@ -13,9 +13,9 @@ In Terminal enter
 ### Check configuration
 Name of the investments workbook
 
-$pip install scrapy
-$pip install scrapy-playwright
+$pip install scrapy scrapy-playwright
 $ playwright install
+$pip install behave PyHamcrest
 
 
 Activate "Select and Run" Activity.
