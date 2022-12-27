@@ -3,7 +3,10 @@ import re
 import pandas as pd
 import numpy as np
 import logging
+import datetime
 from os.path import exists
+from scrapy_playwright.page import PageMethod
+
 from . import investmentsbook as ib
 
 """Base Morningstar urls for the specific security types.
@@ -38,7 +41,11 @@ class Funds1Spider(scrapy.Spider):
             yield scrapy.Request(
                 url=url_cefs.format(sym=symbol, view="0"),
                 callback=self.parse_cefs_summ,
-                meta={"playwright": True},
+                meta= dict(
+                    playwright = True,
+                    playwright_include_page = True,
+                    playwright_page_methods = [PageMethod('wait_for_selector', 'span.as-of')]
+                ),
                 cb_kwargs=dict(symbol=symbol)
                 )
 
@@ -100,17 +107,22 @@ class Funds1Spider(scrapy.Spider):
             }
         yield data
 
-    def parse_cefs_summ(self, response, symbol):
-        yield {"url": response.url}
-        time_text = response.xpath("//p[@id='Col0PriceTime']/text()").get()
+    async def parse_cefs_summ(self, response, symbol):
+        page = response.meta['playwright_page']
+        await page.screenshot(
+            path= 'logs/screenshot%s.png' % datetime.datetime.now().strftime('%Y%m%dT%H%M%S'),
+            full_page=True)
+        await page.close()
+
+        # info under chart with currency and date.
+        info_text = response.xpath("//div[@class='sal-mip-quote__indicate']//text()").getall()
 
         data = {
-            "isin" : response.xpath("//tr[@id='KeyStatsIsin']/td/text()").get(),
             "symbol": symbol,
-            "name": response.xpath("//span[@class='securityName']/text()").get(),
-            "price": response.xpath("//span[@id='Col0Price']/text()").get(),
-            "currency" : response.xpath("//span[@id='Col0Price']/abbr/text()").get(),
-            "date": re.search(r"\d{2}/\d{2}/\d{4}", time_text).group()
+            "name": response.xpath("//span[@class='sal-component-title1']//text()").get(),
+            "price": response.xpath("//div[contains(text(), 'Last Closing Share Price')]/..//text()").getall()[2],
+            "currency" : info_text[0],
+            "date": re.search(r"\d{2}/\d{2}/\d{4}", info_text[6]).group()
             }
         yield data
 
