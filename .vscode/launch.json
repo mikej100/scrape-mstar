@@ -18,8 +18,22 @@
             ],
             "type": "node"
         },
-
-
+        {
+            "name": "Behave: Current File",
+            "type": "python",
+            "request": "launch",
+            "module": "behave",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/test/features",
+            "env": {
+                "BASE_DIR": "./test/features"
+            },
+            "args":[
+                "--no-capture",
+                "--no-capture-stderr",
+                "$(file)"
+            ]
+        },
         {
             "name": "Python: Current File",
             "type": "python",

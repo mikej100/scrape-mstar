@@ -27,19 +27,19 @@ url_equities = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=
 """
 class Funds1Spider(scrapy.Spider):
     name = "funds1"
-
     def start_requests(self):
-        symbols = ib.Investmentsbook.get_ms_symbols()
-        if True:  # switch to dump symbol list as json
+        symbols = json.loads(self.symbols)
+        # symbols = ib.Investmentsbook.get_ms_symbols()
+        if False:  # switch to dump symbol list as json
             with open("data/symbols.json", "w") as outfile:
                 outfile.write(json.dumps(symbols))
     
         url_stem_equities = 'https://tools.morningstar.co.uk/uk/stockreport/default.aspx?Site=uk&id='
-#        for symbol in symbols['fund_symbols']:
-#            yield scrapy.Request(
-#                url=url_funds.format(sym=symbol, view="0"),
-#                callback=self.parse_funds_summ,
-#                cb_kwargs=dict(symbol=symbol))
+        for symbol in symbols['fund_symbols']:
+            yield scrapy.Request(
+                url=url_funds.format(sym=symbol, view="0"),
+                callback=self.parse_funds_summ,
+                cb_kwargs=dict(symbol=symbol))
 
         logger.info("Starting cef symbols")
         for symbol in symbols['cef_symbols']:
@@ -54,12 +54,12 @@ class Funds1Spider(scrapy.Spider):
                 cb_kwargs=dict(symbol=symbol)
                 )
 
-#        for symbol in symbols['equity_symbols']:
-#            yield scrapy.Request(
-#                url=url_equities.format(sym=symbol, view=""),
-#                callback=self.parse_equities_summ,
-#                cb_kwargs=dict(symbol=symbol)
-#            )
+        for symbol in symbols['equity_symbols']:
+            yield scrapy.Request(
+                url=url_equities.format(sym=symbol, view=""),
+                callback=self.parse_equities_summ,
+                cb_kwargs=dict(symbol=symbol)
+            )
 
 
     def parse_funds_summ(self, response, symbol):
