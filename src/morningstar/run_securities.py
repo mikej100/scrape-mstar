@@ -25,7 +25,7 @@ def run_securities(symbols, crawl_id=""):
     process.crawl(Funds1Spider, symbols=symbols)
     process.start()
 
-if __name__ == "__main__":
-    #symbols =  '{"fund_symbols": ["F000013G37"], "cef_symbols": ["F000011FTC"], "equity_symbols": ["0P0000004C"]}'
-    symbols =  '{"fund_symbols": ["F000013G37"], "cef_symbols": [], "equity_symbols": ["0P0000004C"]}'
-    run_securities(symbols,"1")
+# if __name__ == "__main__":
+#     #symbols =  '{"fund_symbols": ["F000013G37"], "cef_symbols": ["F000011FTC"], "equity_symbols": ["0P0000004C"]}'
+#     symbols =  '{"fund_symbols": ["F000013G37"], "cef_symbols": [], "equity_symbols": ["0P0000004C"]}'
+#     run_securities(symbols,"1")

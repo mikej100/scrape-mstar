@@ -1,6 +1,8 @@
 {
+    "gherkin-autocomplete.featuresPath": "test/features",
+    "cucumberautocomplete.stepRegExSymbol": "'",
     "cucumberautocomplete.steps": [
-        "test/features/step_definitions/*.py"
+        "test/features/steps/*.py"
     ],
-    "cucumberautocomplete.strictGherkinCompletion": true
+    "cucumberautocomplete.strictGherkinCompletion": true,
 }

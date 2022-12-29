@@ -24,14 +24,14 @@
             "request": "launch",
             "module": "behave",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}/test/features",
+            "cwd": "${workspaceFolder}",
             "env": {
                 "BASE_DIR": "./test/features"
             },
             "args":[
                 "--no-capture",
                 "--no-capture-stderr",
-                "$(file)"
+                "${file}"
             ]
         },
         {
