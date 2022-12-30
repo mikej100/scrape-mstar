@@ -9,7 +9,7 @@ logger = logging.getLogger("runScript")
 
 class PlaywrightSpider(scrapy.Spider):
     name = "playwright1"
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
     def start_requests(self):
         url_1 = "https://docs.scrapy.org/en/latest/index.html"

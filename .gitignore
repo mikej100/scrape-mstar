@@ -6,6 +6,8 @@ logs/
 data/
 env/
 venv/
+project.egg-info/
+dbs/
 /.html
 /.pyc
 

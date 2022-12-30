@@ -16,6 +16,9 @@ Name of the investments workbook
 $pip install scrapy scrapy-playwright
 $ playwright install
 $pip install behave PyHamcrest
+$pip install scrapyd
+$ pip install git+https://github.com/scrapy/scrapyd-client.git
+$ pip install python-scrapyd-api
 
 
 Activate "Select and Run" Activity.

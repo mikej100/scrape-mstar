@@ -35,6 +35,24 @@
             ]
         },
         {
+            "name": "wipBehave",
+            "type": "python",
+            "request": "launch",
+            "module": "behave",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "BASE_DIR": "${workspaceFolder}/test/features"
+            },
+            "args":[
+                "--no-capture",
+                "--no-capture-stderr",
+                "--tags=@wip",
+                "${workspaceFolder}/test/features"
+                //"${workspaceFolder}/test/features/run_scrapy.feature"
+            ]
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
