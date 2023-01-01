@@ -9,7 +9,6 @@ And symbols dataset 1
 When scrape-mstar is invoked
 Then new securities_data file is created
 
-@wip
 Scenario: Invoke crawl on locally hosted scrapyd service
 Given morningstar scapy module is deployed to local server
 When a run request is submitted

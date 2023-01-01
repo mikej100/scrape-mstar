@@ -82,7 +82,6 @@ def step_impl(context,timeout_str):
     while timeleft > 0:
         if len(glob.glob(context.feed_uri)) == 1:
             result = True
-            logging.info(f"Output file found after {timeout-timeleft}")
             break
         timeleft = timeleft - interval
         time.sleep(interval)
