@@ -29,13 +29,13 @@ class ScrapydManager:
         self.scrapyd_spider = "funds1"
         self.scrapyd = ScrapydAPI("http://localhost:6800")
 
+
     def is_running(self):
         try:
             projects = self.scrapyd.list_projects()
             return True
         except:
             return False
-
 
 
     def start_service(self):
@@ -51,6 +51,7 @@ class ScrapydManager:
     #@wait_for_true(self, timeout=1, interval=0.2)
     #def wait_for_service(self):
      #   self.is_running()
+
 
 if __name__ == "__main__":
     scrapyd = ScrapydManager()
