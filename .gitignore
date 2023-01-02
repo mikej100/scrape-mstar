@@ -2,8 +2,8 @@
 # Project-specific entries
 # ------------------------
 
-logs/
-data/
+logs/*
+data/*
 env/
 venv/
 project.egg-info/
