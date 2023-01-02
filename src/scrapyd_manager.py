@@ -53,5 +53,5 @@ class ScrapydManager:
      #   self.is_running()
 
 if __name__ == "__main__":
-    result = True
-    a=2
+    scrapyd = ScrapydManager()
+    result = scrapyd.start_service()
