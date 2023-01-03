@@ -37,7 +37,7 @@ class ScrapydManager:
         except:
             return False
 
-    def is_project_deployed(self, project=self.project):
+    def is_project_deployed(self, project="morningstar"):
         projects = self.scrapyd.list_projects()
         if project in projects:
             return True
