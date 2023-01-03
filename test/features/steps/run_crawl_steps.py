@@ -18,19 +18,20 @@ from scrapyd_api import  ScrapydAPI
 def step_implementation(context):
     pass
 
-@given(u'symbols dataset 1')
-def step_impl(context):
-    # context.symbols_list ='{"fund_symbols": ["F000013G37"], "cef_symbols": ["F000011FTC"], "equity_symbols": ["0P0000004C"]}' 
+@given('symbols dataset 1')
+def step_implementation(context):
+    # context.symbols_l:ist ='{"fund_symbols": ["F000013G37"], "cef_symbols": ["F000011FTC"], "equity_symbols": ["0P0000004C"]}' 
     context.symbols ='{"fund_symbols": ["F000013G37"], "cef_symbols": [], "equity_symbols": ["0P0000004C"]}' 
+    pass
 
-@when(u'scrape-mstar is invoked')
+@when('scrape-mstar is invoked')
 def step_impl(context):
     context.crawl_id = "crawl_" + datetime.datetime.now().strftime('%Y%m%dT%H%M%S') 
     from  src.morningstar.run_securities import run_securities
     run_securities(context.symbols, context.crawl_id)
 
 
-@then(u'new securities_data file is created')
+@then('new securities_data file is created')
 def step_impl(context):
     
     result = glob.glob(f"data/*{context.crawl_id}*")
@@ -39,19 +40,15 @@ def step_impl(context):
 #@given('symbols data json {"fund_symbols": ["F000013G37"], "cef_symbols": ["F000011FTC"], "equity_symbols": ["0P0000004C"]}
 #When scrape-mstar is invoked
 #Then new securities_data file is created
-@given(u'morningstar scapy module is deployed to local server')
+@given('morningstar scapy module is deployed to local server')
 def step_impl(context):
-    context.scrapyd_project = "morningstar"
-    context.scrapyd_spider = "funds1"
-    context.scrapyd = ScrapydAPI("http://localhost:6800")
-    projects = context.scrapyd.list_projects()
-    spiders = context.scrapyd.list_spiders(context.scrapyd_project)
-    #assert_that( projects, has_item("billooo"), "projects listed by scrapyd")
-    assert_that( projects, has_item(context.scrapyd_project), "projects listed by scrapyd")
-    assert_that( spiders, has_item(context.scrapyd_spider), "spiders listed by scrapyd")
+    context.scrapyd = ScrapydManager()
+    assert_that( context.scrapyd.is_project_deployed(), is_(True), "project listed by scrapyd")
 
 
-@when(u'a run request is submitted')
+    
+
+@when('a run request is submitted')
 def step_impl(context):
     context.symbols ='{"fund_symbols": ["F000013G37"], "cef_symbols": [], "equity_symbols": ["0P0000004C"]}' 
     context.crawl_id = "crawl_" + datetime.datetime.now().strftime('%Y%m%dT%H%M%S') 
@@ -68,11 +65,11 @@ def step_impl(context):
     assert_that(result, matches_regexp(r"\S{32}") )
     context.job_id = result
 
-@then(u'a run_id is returned')
+@then('a run_id is returned')
 def step_impl(context):
     assert_that(context.job_id, matches_regexp(r"\S{32}") )
 
-@then(u'the output file is produced within "{timeout_str}" seconds')
+@then('the output file is produced within "{timeout_str}" seconds')
 def step_impl(context,timeout_str):
     timeout = float(timeout_str)
     interval = 0.5

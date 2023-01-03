@@ -25,8 +25,8 @@ def wait_for_true(self,timeout, interval=0.5):
 
 class ScrapydManager:
     def __init__(self):
-        self.scrapyd_project = "morningstar"
-        self.scrapyd_spider = "funds1"
+        self.project = "morningstar"
+        self.spider = "funds1"
         self.scrapyd = ScrapydAPI("http://localhost:6800")
 
 
@@ -35,6 +35,13 @@ class ScrapydManager:
             projects = self.scrapyd.list_projects()
             return True
         except:
+            return False
+
+    def is_project_deployed(self, project=self.project):
+        projects = self.scrapyd.list_projects()
+        if project in projects:
+            return True
+        else:
             return False
 
 
@@ -48,6 +55,16 @@ class ScrapydManager:
             result = self.is_running()
         return result
 
+    def deploy_default(self):
+        # Deploy only if service not already running
+        if not self.is_running():
+            return False
+        else:
+            deploy_process = subprocess.Popen(["scrapyd-deploy default"], cwd=f"{os.getcwd()}/src")
+            time.sleep(0.5)
+            result = self.is_project_deployed(project)
+        return result
+
     #@wait_for_true(self, timeout=1, interval=0.2)
     #def wait_for_service(self):
      #   self.is_running()
@@ -56,3 +73,4 @@ class ScrapydManager:
 if __name__ == "__main__":
     scrapyd = ScrapydManager()
     result = scrapyd.start_service()
+    result = scrapyd.deploy_default()

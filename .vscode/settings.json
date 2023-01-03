@@ -4,5 +4,7 @@
     "cucumberautocomplete.steps": [
         "test/features/steps/*.py"
     ],
-    "cucumberautocomplete.strictGherkinCompletion": true,
+    "cucumberautocomplete.strictGherkinCompletion": false,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.linting.mypyEnabct,lllled": "basic",
 }

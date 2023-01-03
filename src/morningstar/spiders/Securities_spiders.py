@@ -139,6 +139,9 @@ class Funds1Spider(scrapy.Spider):
         isin_text =	response.xpath("//td[@id='Col0Isin']/text()").getall()[0]
         price_text = response.xpath("//span[@id='Col0Price']/text()").getall()[0]
         price_info_text = response.xpath("//p[@id='Col0PriceTime']/text()").getall()
+        
+
+        currency = re.search(r"\|\s(\w{3})", price_info_text[2]).group(1)
         yield {
             "isin" : isin_text,
             "symbol": symbol,
