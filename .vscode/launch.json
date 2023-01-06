@@ -40,15 +40,13 @@
             "module": "behave",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
-            "env": {
-                "BASE_DIR": "${workspaceFolder}/test/features"
-            },
             "args":[
                 "--no-capture",
                 "--no-capture-stderr",
                 "--tags=@wip",
-                "${workspaceFolder}/test/features"
-                //"${workspaceFolder}/test/features/run_scrapy.feature"
+                // "-v",
+             "${workspaceFolder}/test/features"
+             //"${workspaceFolder}/test/features/run_scrapy.feature"
             ]
         },
         {
@@ -56,6 +54,16 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Sandbox1",
+            "type": "python",
+            "request": "launch",
+            "program": "test/sandbox/sbx1.py",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/env"
+            },
             "console": "integratedTerminal"
         },{
             "name": "AllSecSpiders",

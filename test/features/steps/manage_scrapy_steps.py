@@ -26,6 +26,13 @@ def step_impl(context):
         is_(True)
         )
 
+@given('default project is not deployed on scrapyd')
+def step_impl(context):
+    context.scrapyd.delete_project("default")
+    assert_that(
+        context.scrapyd.is_project_deployed("default"),
+        is_(False)
+    )
 
 @when('scapyd is started on localhost')
 def step_impl(context):

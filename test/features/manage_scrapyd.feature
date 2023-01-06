@@ -1,7 +1,8 @@
 Feature: Manage scrapyd
 As an service operations manager
 I want to manage scrapyd service
-So that the scraping services can be used by higher level python scripts
+So that the scraping services can be used by higher level python script
+
 
 Scenario: Start scrapy on local host
 Given scrapyd is not running on localhost

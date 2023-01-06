@@ -6,5 +6,9 @@
     ],
     "cucumberautocomplete.strictGherkinCompletion": false,
     "python.analysis.typeCheckingMode": "basic",
-    "python.linting.mypyEnabct,lllled": "basic",
+    "python.pythonPath": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env/",
+    "terminal.integrated.env.linux": {
+            "PATH": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env:${env:PATH}",
+            "PYTHONPATH": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env:${env:PYTHONPATH}",
+    }
 }

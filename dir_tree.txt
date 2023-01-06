@@ -1,0 +1,18 @@
+.
+├── .git
+├── .vscode
+├── data
+├── env
+│   ├── bin
+│   ├── include
+│   ├── lib
+│   │   └── python3.10
+├── logs
+├── src
+│   ├── morningstar
+│   │   ├── eggs
+│   │   └── spiders
+└── test
+    ├── features
+    │   └── steps
+    └── sandbox
