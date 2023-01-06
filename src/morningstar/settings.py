@@ -94,7 +94,7 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/request-response.html
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 #
-LOG_FILE = 'logs\scrapy.log'
+LOG_FILE = 'logs/scrapy.log'
 #
 # Download handlers for scrapy-playwright and use asyncio-based Twisted reactor
 # see https://github.com/scrapy-plugins/scrapy-playwright

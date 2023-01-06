@@ -32,7 +32,7 @@ if __name__ == "__main__":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     process = CrawlerProcess(
              settings={
-                "LOG_FILE": 'morningstar\logs\scrapy.log',
+                "LOG_FILE": 'logs/scrapy.log',
                 "REQUEST_FINGERPRINTER_IMPLEMENTATION": '2.7',
                  "TWISTED_REACTOR": "twisted.internet.asyncioreactor.AsyncioSelectorReactor",
                  "DOWNLOAD_HANDLERS": {

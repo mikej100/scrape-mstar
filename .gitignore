@@ -10,6 +10,7 @@ project.egg-info/
 dbs/
 /.html
 /.pyc
+twistd.pid
 
 # .vscode       # Decided to keep the config and setup.
 
