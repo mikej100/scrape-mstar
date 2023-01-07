@@ -41,7 +41,7 @@ def step_impl(context):
         is_(True)
         )
 
-@when('default spider is deployed to localhost')
+@when('default project is deployed to localhost')
 def step_impl(context):
     assert_that(
         context.scrapyd.deploy_default(),
@@ -53,7 +53,7 @@ def step_impl(context):
     result = context.scrapyd.is_running()
     assert_that(result, is_(True))
 
-@then('default spider is listed by scrapyd server')
+@then('default project is listed by scrapyd server')
 def step_impl(context):
     result = context.scrapyd.is_project_deployed()
     assert_that( result, is_(True),  "projects listed by scrapyd")

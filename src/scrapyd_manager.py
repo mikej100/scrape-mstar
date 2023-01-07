@@ -91,8 +91,8 @@ class ScrapydManager:
         running or project not listed after deployment attempt.
         :rtype: bool
         """        
-        if not self.is_running():
-            return False
+        if self.is_project_deployed():
+            return True
         else:
             deploy_process = subprocess.Popen(["scrapyd-deploy", "default"], cwd=f"{os.getcwd()}/src")
             time.sleep(MEDIUM_WAIT)
@@ -116,6 +116,19 @@ class ScrapydManager:
     #@wait_for_true(self, timeout=1, interval=0.2)
     #def wait_for_service(self):
      #   self.is_running()
+
+
+    def schedule(self, symbols, crawl_id, feed_uri) -> str:
+        settings = {
+            "FEED_URI": feed_uri
+        }
+        result = self.scrapyd.schedule( 
+            self.project,
+            self.spider, 
+            settings=settings,
+            symbols=symbols
+            )
+        return result
 
 
 if __name__ == "__main__":

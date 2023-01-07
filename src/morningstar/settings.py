@@ -95,6 +95,7 @@ ROBOTSTXT_OBEY = False
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 #
 LOG_FILE = 'logs/scrapy.log'
+LOG_LEVEL = 'ERROR'
 #
 # Download handlers for scrapy-playwright and use asyncio-based Twisted reactor
 # see https://github.com/scrapy-plugins/scrapy-playwright

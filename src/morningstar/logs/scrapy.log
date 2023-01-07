@@ -1,0 +1,4 @@
+2023-01-06 12:32:58 [scrapy.utils.log] INFO: Scrapy 2.7.1 started (bot: morningstar)
+2023-01-06 12:32:58 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.14, cssselect 1.2.0, parsel 1.7.0, w3lib 2.1.1, Twisted 22.10.0, Python 3.10.6 (main, Nov 14 2022, 16:10:14) [GCC 11.3.0], pyOpenSSL 22.1.0 (OpenSSL 3.0.7 1 Nov 2022), cryptography 38.0.4, Platform Linux-5.15.79.1-microsoft-standard-WSL2-x86_64-with-glibc2.35
+2023-01-06 12:36:29 [scrapy.utils.log] INFO: Scrapy 2.7.1 started (bot: morningstar)
+2023-01-06 12:36:29 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.14, cssselect 1.2.0, parsel 1.7.0, w3lib 2.1.1, Twisted 22.10.0, Python 3.10.6 (main, Nov 14 2022, 16:10:14) [GCC 11.3.0], pyOpenSSL 22.1.0 (OpenSSL 3.0.7 1 Nov 2022), cryptography 38.0.4, Platform Linux-5.15.79.1-microsoft-standard-WSL2-x86_64-with-glibc2.35
