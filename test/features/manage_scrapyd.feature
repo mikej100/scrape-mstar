@@ -18,3 +18,15 @@ Given scrapyd is running on localhost
 And default project is not deployed on scrapyd
 When default project is deployed to localhost
 Then default project is listed by scrapyd server
+
+Scenario: Stop and restart scrapyd
+Given scrapyd is running on localhost
+When scrapyd service is stopped on localhost
+Then scrapyd is not running on localhost
+
+@wip
+Scenario: From cold: start scrapyd, deploy and run crawl
+Given scrapyd is not running on localhost
+When scrapyd start and deploy script is run
+And a small job is submitted
+Then the output file is produced within "10" seconds

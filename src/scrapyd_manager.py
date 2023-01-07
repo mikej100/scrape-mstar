@@ -5,7 +5,7 @@ from scrapyd_api import ScrapydAPI
 
 # check if scrapyd running
 
-SHORT_WAIT = 0.5
+SHORT_WAIT = 1
 MEDIUM_WAIT = 1.5
 
 def wait_for_true(self,timeout, interval=SHORT_WAIT):
@@ -76,10 +76,23 @@ class ScrapydManager:
         if self.is_running():
             return True
         else:
-            server_process = subprocess.Popen(["scrapyd"], cwd=f"{os.getcwd()}/src/morningstar")
+            #server_process = subprocess.Popen(["scrapyd"], cwd=f"{os.getcwd()}/src/morningstar")
+            server_process = subprocess.Popen(["scrapyd"])
             time.sleep(SHORT_WAIT)
             result = self.is_running()
         return result
+    
+    def stop_service(self) -> bool:
+
+        if self.is_running():
+            stop_process = subprocess.Popen(["sudo", "killall", "scrapyd"])
+            stop_process.wait()
+            result = not self.is_running()
+        else:
+            result = True
+        return result
+        
+
 
     def deploy_default(self) -> bool:
         """Deploy default project to scrapyd service.

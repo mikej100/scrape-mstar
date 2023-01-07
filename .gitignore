@@ -3,6 +3,7 @@
 # ------------------------
 
 logs/*
+src/morningstar/logs/*
 data/*
 env/
 venv/

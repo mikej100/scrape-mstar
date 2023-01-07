@@ -24,3 +24,12 @@ playwright install
 
 Activate "Select and Run" Activity.
 From the run drop-down (green triangle), select "Crawl with funds1"
+
+Run as service on localhost
+--------------------------
+To start the service on localhost run scrapy_manager.py. When run as a script, this will 
+start the scrapyd server and deploy the project and spider.
+
+To run behave tests which shutdown the local scrapyd service the following line 
+needs to be written to a file in /etc/sudoers.d/
+<admin-account-name> ALL=(ALL:ALL) NOPASSWD: /usr/bin/killall

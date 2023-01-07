@@ -3,6 +3,7 @@ import glob
 import os
 import logging
 import pathlib
+import subprocess
 import sys
 import time
 
@@ -12,11 +13,16 @@ from scrapyd_api import  ScrapydAPI
 
 from src.scrapyd_manager import ScrapydManager
 
+logger = logging.getLogger("managed_scrapy_steps")
+
 @given('scrapyd is not running on localhost')
 def step_impl(context):
     context.scrapyd = ScrapydManager()
-    result = context.scrapyd.is_running()
-    assert_that(result, is_(False))
+    assert_that (
+        context.scrapyd.stop_service(),
+        is_(True),
+        "Scrapyd stopped"
+        )
 
 @given('scrapyd is running on localhost')
 def step_impl(context):
@@ -48,6 +54,21 @@ def step_impl(context):
         is_(True)
         )
 
+@when('scrapyd service is stopped on localhost')
+def step_impl(context):
+    assert_that(
+        context.scrapyd.stop_service(),
+        is_(True),
+        "Stopping scrapyd service"
+    )
+
+@when('scrapyd start and deploy script is run')
+def step_impl(context):
+    logger.info(f"Working directory before calling scrapyd_manager:\n{os.getcwd()}")
+    # run_process = subprocess.run("scrapyd_manager.py", cwd=f"{os.getcwd()}/src")
+    run_process = subprocess.run("src/scrapyd-start-deploy")
+    time.sleep(2)
+
 @then('scrapyd on localhost responds to a request')
 def step_impl(context):
     result = context.scrapyd.is_running()
@@ -57,3 +78,12 @@ def step_impl(context):
 def step_impl(context):
     result = context.scrapyd.is_project_deployed()
     assert_that( result, is_(True),  "projects listed by scrapyd")
+
+
+@then('scrapyd is not running on localhost')
+def step_impl(context):
+    assert_that(
+        context.scrapyd.is_running(),
+        is_(False), 
+        "scrapyd service running."
+    )
