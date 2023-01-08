@@ -67,7 +67,7 @@ def step_impl(context):
     logger.info(f"Working directory before calling scrapyd_manager:\n{os.getcwd()}")
     # run_process = subprocess.run("scrapyd_manager.py", cwd=f"{os.getcwd()}/src")
     run_process = subprocess.run("src/scrapyd-start-deploy")
-    time.sleep(2)
+    #time.sleep(2)
 
 @then('scrapyd on localhost responds to a request')
 def step_impl(context):
