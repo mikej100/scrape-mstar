@@ -1,0 +1,7 @@
+version: "0.1"
+services:
+  scrapyd:
+    image: "scrape-mstar:latest"
+    ports:
+      - "6800:6800"
+    

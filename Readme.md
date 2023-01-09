@@ -13,13 +13,29 @@ In Terminal enter
 ### Check configuration
 Name of the investments workbook
 
-pip install scrapy\
-            scrapy-playwright\
-            behave PyHamcrest\
-            scrapyd\
-            python-scrapyd-api
+### Installation
+pip install requirements.txt
 pip install git+https://github.com/scrapy/scrapyd-client.git
 playwright install
+
+### Run in VS Code
+To run in debug 
+    launch "wipBehave" will run scenarios tagged with @wip
+    launch Behave: current file (feature file)
+    launch allSecSpiders or CrawlFunds1
+
+### Deploy to scrapyd
+`scrapyd`   to start server
+`scrapy-deploy`
+
+or run `scrapy-start-deploy` script.
+
+To confirm server is running and list project deployed:
+`curl http://localhost:6800/listprojects.json`
+
+### Docker
+`docker build --tag scrape-mstar .`
+`docker compose up`
 
 
 Activate "Select and Run" Activity.
