@@ -44,7 +44,7 @@ class ScrapydManager:
     def __init__(self):
         self.project = "morningstar"
         self.spider = "funds1"
-        self.scrapyd = ScrapydAPI("http://localhost:6800")
+        self.scrapyd = ScrapydAPI(target="http://localhost:6800")
 
 
     def is_running(self):

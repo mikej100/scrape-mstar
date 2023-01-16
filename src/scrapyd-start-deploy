@@ -6,4 +6,4 @@ import time
 scrapyd = ScrapydManager()
 scrapyd.start_service()
 scrapyd.deploy_default()
-time.sleep(30)
+time.sleep(180)

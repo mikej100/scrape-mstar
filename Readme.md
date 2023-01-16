@@ -49,3 +49,10 @@ start the scrapyd server and deploy the project and spider.
 To run behave tests which shutdown the local scrapyd service the following line 
 needs to be written to a file in /etc/sudoers.d/
 <admin-account-name> ALL=(ALL:ALL) NOPASSWD: /usr/bin/killall
+
+Run in local Docker container
+-----------------------
+docker build --tag scrape-mstar .
+docker compose up
+
+Service is accessible on \\localhost:6800

@@ -3,5 +3,5 @@ services:
   scrapyd:
     image: "scrape-mstar:latest"
     ports:
-      - "6800:6800"
+      - "127.0.0.1:6800:6800"
     
