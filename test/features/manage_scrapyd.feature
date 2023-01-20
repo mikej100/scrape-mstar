@@ -3,7 +3,7 @@ As an service operations manager
 I want to manage scrapyd service
 So that the scraping services can be used by higher level python script
 
-@start @wip
+@start 
 Scenario: Start scrapy on local host
 Given scrapyd is not running on localhost
 When scapyd is started on localhost
@@ -24,7 +24,6 @@ Given scrapyd is running on localhost
 When scrapyd service is stopped on localhost
 Then scrapyd is not running on localhost
 
-@wip
 Scenario: Run scrapy-start-deploy script and crawl
 Given scrapyd is not running on localhost
 When scrapyd start and deploy script is run
