@@ -1,3 +1,36 @@
+Financial data webscraping service
+==================================
+
+scrape-mstar is used to scrape financial data from financial information
+web pages.
+
+The service is under development and not suitable for others to use, yet.
+
+The full service runs on Linux platform only. This is due to one of the 
+web page scraping components not working on Windows. The package concerned is 
+Playwright and it may become useable on Windows in the future. The forex python
+script can be run on Windows.
+
+The service runs as a web service by scrapyd. scrapyd can run as a local
+service, and on a Docker container. The suite includes scripts to build and run
+the container, on local machine currently.
+
+Results are written to local files in the project structure. The design is to 
+write results to MongoDB Atlas database.
+
+Foreign exchange function is included in the suite. This uses a set of historic 
+GPB-USD exchange rates hosted on the project-specific MongoDB Atlas database.
+
+This is a development project. The configuration for VS Code, Behave and pytest
+features are included in the repository. Some of these will contain local 
+implementation details.
+
+Packages used in construction
+Web scraping: scrapy, scrapyd, playwright
+Deployment: Docker container, MongoDB Atlas cloud-hosted database
+Testing: Behave, pytest
+IDE: VS Code (some vs-specific debug configurations are included in the repo)
+
 Running the spider scrapers
 ===========================
 
