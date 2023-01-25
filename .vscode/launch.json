@@ -5,6 +5,8 @@
     "version": "0.2.0",
     "configurations": [
 
+
+
         {
             "args": [
                 "task"
@@ -130,18 +132,6 @@
                 "funds3",
                 "-O",
                 "..\\..\\..\\data\\analysis\\funds3.json"
-            ],
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Test",
-            "type": "python",
-            "request": "launch",
-            "module": "scrapy",
-            "cwd": "C:\\Users\\User\\Mike Jennings\\Investment club - General\\analysis\\20210714_morningstar_data",
-            "args": [
-                "crawl",
-                "funds1",
             ],
             "console": "integratedTerminal"
         }

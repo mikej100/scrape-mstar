@@ -6,7 +6,19 @@
     ],
     "cucumberautocomplete.strictGherkinCompletion": false,
     "python.analysis.typeCheckingMode": "basic",
-    // "python.pythonPath": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env/",
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./test",
+        "-p",
+        "test_*.py"
+    ],
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestArgs": [
+        "test"
+    ],
+    // "python.pythonPath": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/src/",
     // "terminal.integrated.env.linux": {
     //         "PATH": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env:${env:PATH}",
     //         "PYTHONPATH": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env:${env:PYTHONPATH}",
