@@ -5,7 +5,7 @@
         "test/features/steps/*.py"
     ],
     "cucumberautocomplete.strictGherkinCompletion": false,
-    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.typeCheckingMode": "off",
     "python.testing.unittestArgs": [
         "-v",
         "-s",

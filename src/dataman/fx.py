@@ -1,10 +1,12 @@
+import sys
+#import functools
+#print (functools.reduce(lambda a,b:a+"\n\t"+b, sys.path, "sys path: "))
 import logging
 import os
 from pymongo import MongoClient
 import datetime
 import dateutil.parser as dparser
-import sys
-        
+
 logger = logging.getLogger("fx")
 
 def posixdtime_to_mm(px_dtime):
@@ -75,7 +77,6 @@ class Fx:
 
         self.fxtime = fx["time"]
         self.fxclose = fx["close"]
-        
 
     def rate(self, px_dtime):
         mm_time = posixdtime_to_mm( px_dtime )
