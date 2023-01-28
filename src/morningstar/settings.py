@@ -63,7 +63,10 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
+IMONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "mstar"
+MONGODB_COLLECTION = "sec_scrape"
 #    'morningstar.pipelines.MorningstarPipeline': 300,
 #}
 
