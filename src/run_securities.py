@@ -8,20 +8,19 @@ def run_securities(symbols, crawl_id=""):
     logger.info('Starting')
 
     #process = CrawlerProcess(get_project_settings())
-    process = CrawlerProcess(
-             settings={
-                "REQUEST_FINGERPRINTER_IMPLEMENTATION": '2.7',
-                 "TWISTED_REACTOR": "twisted.internet.asyncioreactor.AsyncioSelectorReactor",
-                 "DOWNLOAD_HANDLERS": {
-                     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-                     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-                 },
-                 "CONCURRENT_REQUESTS": 32,
-                 "FEED_URI": f"./data/securities_data_{crawl_id}.json",
-                 "FEED_FORMAT":'jsonlines',
-                 "LOG_FILE" : "logs/scrapy.log"
-             }
-         )
+    process = CrawlerProcess(get_project_settings())
+#l             settings={
+#l                "REQUEST_FINGERPRINTER_IMPLEMENTATION": '2.7',
+#l                 "TWISTED_REACTOR": "twisted.internet.asyncioreactor.AsyncioSelectorReactor",
+#l                 "DOWNLOAD_HANDLERS": {
+#l                     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+#l                     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+#l                 },
+#l                 "CONCURRENT_REQUESTS": 32,
+#l                 "FEED_URI": f"./data/securities_data_{crawl_id}.json",
+#l                 "FEED_FORMAT":'jsonlines',
+#l                 "LOG_FILE" : "logs/scrapy.log"
+#l             }
     process.crawl(Funds1Spider, symbols=symbols)
     process.start()
 

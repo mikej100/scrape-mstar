@@ -1,3 +1,4 @@
+import os
 # Scrapy settings for morningstar project
 #
 # For simplicity, this file contains only settings considered important or
@@ -10,8 +11,8 @@
 BOT_NAME = 'morningstar'
 
 #SPIDER_MODULES = ['morningstar.spiders']
-SPIDER_MODULES = ['morningstar.spiders']
-NEWSPIDER_MODULE = 'morningstar.spiders'
+SPIDER_MODULES = ['src.morningstar.spiders']
+NEWSPIDER_MODULE = 'src.morningstar.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -61,11 +62,14 @@ ROBOTSTXT_OBEY = False
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
 
+
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-IMONGODB_SERVER = "localhost"
-MONGODB_PORT = 27017
-MONGODB_DB = "mstar"
+ITEM_PIPELINES = {'src.morningstar.pipelines.MongoDBPipeline': 300}
+#IMONGODB_SERVER = "localhost"
+MONGO_URI = os.environ["MONGODB_CONN_STRING"]
+MONGO_PORT = 27017
+MONGO_DB = "mstar"
 MONGODB_COLLECTION = "sec_scrape"
 #    'morningstar.pipelines.MorningstarPipeline': 300,
 #}
@@ -98,7 +102,7 @@ MONGODB_COLLECTION = "sec_scrape"
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 #
 LOG_FILE = 'logs/scrapy.log'
-LOG_LEVEL = 'ERROR'
+LOG_LEVEL = 'DEBUG'
 #
 # Download handlers for scrapy-playwright and use asyncio-based Twisted reactor
 # see https://github.com/scrapy-plugins/scrapy-playwright

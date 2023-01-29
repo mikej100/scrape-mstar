@@ -1,8 +1,5 @@
 import os
-from pymongo import MongoClient
-from scrapy.conf import settings
-from scrapy import log
-from scrapy import DropItem
+import pymongo
 
 # Define your item pipelines here
 #
@@ -16,23 +13,33 @@ from itemadapter import ItemAdapter
 
 class MorningstarPipeline:
     def process_item(self, item, spider):
+        a =23/0
+
         return item
 
 class MongoDBPipeline(object):
-    def __init__(slef):
-        connection = MongoClient(os.environ["MONGO_CONN_STRING"])
-        db = connection(settings['MONGODB_DB'])
-        self.collection = db[settings["MONGODB_COLLECTION"]]
+
+    collection_name = "scraped_items"
+
+    def __init__(self, mongo_uri, mongo_db):
+       self.mongo_uri = mongo_uri
+       self.mongo_db = mongo_db
+        
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            mongo_uri = crawler.settings.get("MONGO_URI"),
+            mongo_db = crawler.settings.get("MONGO_DB")
+        )    
+
+    def open_spider(self, spider):
+        self.client = pymongo.MongoClient(self.mongo_uri)
+        self.db = self.client[self.mongo_db]
+
+    def close_spider(self, spider):
+        self.client.close()
 
     def process_item(self, item, spider):
-        value = True
-        for data in item:
-            if not data:
-                valid = False
-                raise DropItem("Missing {0}!", format(data))
-            if valid:
-                self.collection.insert(dict(item))
-                log.msg("Document added to MongoDB database",
-                    level=log.DEBUG, spider=spider)
-            return item
+        self.db[self.collection_name].insert_one(ItemAdapter(item).asdict())
+        return item
 

@@ -9,7 +9,14 @@ And symbols dataset 1
 When scrape-mstar is invoked
 Then new securities_data file is created
 
-Scenario: Invoke crawl on locally hosted scrapyd service
+Scenario: Invoke crawl on locally hosted scrapyd service writing to local file
 Given default scrapy project is deployed to local server
 When a small job is submitted
 Then the output file is produced within "10" seconds
+
+@wip
+Scenario: Invoke crawl running in same project and write to MongoDB
+Given scrapy modules are in same project as this test
+And symbols dataset 1
+When scrape-mstar is invoked
+Then new documents are created in MongoDB Atlas database

@@ -40,7 +40,7 @@ def step_impl(context):
 @when('scrape-mstar is invoked')
 def step_impl(context):
     context.crawl_id = "crawl_" + datetime.datetime.now().strftime('%Y%m%dT%H%M%S') 
-    from  src.morningstar.run_securities import run_securities
+    from  src.run_securities import run_securities
     run_securities(context.symbols, context.crawl_id)
 
 @when('a small job is submitted')
