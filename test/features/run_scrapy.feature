@@ -14,7 +14,6 @@ Given default scrapy project is deployed to local server
 When a small job is submitted
 Then the output file is produced within "10" seconds
 
-@wip
 Scenario: Invoke crawl running in same project and write to MongoDB
 Given scrapy modules are in same project as this test
 And symbols dataset 1

@@ -67,10 +67,10 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {'src.morningstar.pipelines.MongoDBPipeline': 300}
 #IMONGODB_SERVER = "localhost"
-MONGO_URI = os.environ["MONGODB_CONN_STRING"]
+MONGO_URI = os.environ["MONGO_CONN_STRING"]
 MONGO_PORT = 27017
 MONGO_DB = "mstar"
-MONGODB_COLLECTION = "sec_scrape"
+#MONGO_COLLECTION = "sec_scrape"
 #    'morningstar.pipelines.MorningstarPipeline': 300,
 #}
 

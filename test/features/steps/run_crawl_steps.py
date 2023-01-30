@@ -1,14 +1,9 @@
 import datetime
 import glob
 import os
-import logging
-import pathlib
-import sys
 import time
-
 from behave import given, when, then
 from hamcrest import *
-from scrapyd_api import  ScrapydAPI
 from src.scrapyd_manager import ScrapydManager
 
 
@@ -33,7 +28,7 @@ def step_impl(context):
     scrapyd.start_service()
     assert_that( 
         scrapyd.deploy_default(),
-        is_(True), 
+        True,
         "project listed by scrapyd"
     )
     

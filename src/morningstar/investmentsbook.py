@@ -12,7 +12,7 @@ class Investmentsbook():
 
         """[Get Morningstar symbols from investments workbook]
         """
-    def get_ms_symbols():
+    def get_ms_symbols(self):
 
         if Investmentsbook.is_test_mode:
             symbols = {
@@ -27,10 +27,10 @@ class Investmentsbook():
                 ]
                 }
         else:
-            inv_book_name = os.environ["INVESTMENTS_BOOK"]
+            #inv_book_name = os.environ["INVESTMENTS_BOOK"]
             sec_sheet_name = "SecBase"
 
-            df = pd.read_excel(inv_book_name, sheet_name=sec_sheet_name)
+            df = pd.read_excel(self.bookname, sheet_name=sec_sheet_name)
 
             df_with_symbol = df[
                 df['Morningstar symbol']

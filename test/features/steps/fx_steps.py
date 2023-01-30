@@ -1,5 +1,5 @@
 import logging
-from behave import given, when, then
+from behave import given, when, then #pylint: disable=no-name-in-module
 import datetime
 import dateutil.parser as dparser
 from hamcrest import *

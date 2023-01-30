@@ -46,8 +46,9 @@
                 "--no-capture",
                 "--no-capture-stderr",
                 "--tags=@wip",
+                "--no-skipped",
                 // "-v",
-             "${workspaceFolder}/test/features"
+                "${workspaceFolder}/test/features"
              //"${workspaceFolder}/test/features/run_scrapy.feature"
             ]
         },
