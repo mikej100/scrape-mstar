@@ -2,7 +2,7 @@ from hamcrest import *
 import datetime
 import dateutil.parser as dparser
 
-from src.dataman import fx
+from dataman import fx
 
 def test_gpbusd():
     usd = fx.Fx()

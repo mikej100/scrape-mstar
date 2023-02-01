@@ -5,8 +5,10 @@ from functools import reduce
 from behave import given, when, then #pylint: disable=no-name-in-module
 from hamcrest import *
 
-from src.morningstar.investmentsbook import Investmentsbook
+from morningstar.investmentsbook import Investmentsbook
 
+# pylint: disable=function-redefined
+# pylint:  disable=missing-function-docstring
 @given('investment book file in financial analysis folder')
 def step_impl(context):
     inv_book_loc = os.environ['INVESTMENTS_BOOK_LOC']

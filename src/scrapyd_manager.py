@@ -36,7 +36,7 @@ def wait_for_true(self,timeout, interval=SHORT_WAIT):
     return the_real_decorator
 
 
-class ScrapydManager:
+class ScrapydManager():
     """Class to manage scrapyd service, projects and jobs.
 
     When run as script will start the service and deploy the default project.

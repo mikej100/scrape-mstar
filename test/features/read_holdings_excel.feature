@@ -3,7 +3,6 @@ As an investor
 I want my holdings data to be read from an excel file
 So that I can maintain the data conveniently for analysis
 
-@wip
 Scenario: Read funds base data
 Given investment book file in financial analysis folder
 When the workbook is read

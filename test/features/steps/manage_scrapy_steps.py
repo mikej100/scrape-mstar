@@ -1,17 +1,16 @@
-import datetime
-import glob
 import os
 import logging
-import pathlib
 import subprocess
-import sys
 import time
 
-from behave import given, when, then
+from behave import given, when, then #pylint: disable=no-name-in-module
 from hamcrest import *
 from scrapyd_api import  ScrapydAPI
 
-from src.scrapyd_manager import ScrapydManager
+from scrapyd_manager import ScrapydManager
+
+# pylint: disable=function-redefined
+# pylint:  disable=missing-function-docstring
 
 logger = logging.getLogger("managed_scrapy_steps")
 
