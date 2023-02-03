@@ -34,6 +34,14 @@ def step_implementation(context):
     pass
 
 
+@given( 'symbols file "{symbol_fname}"')
+def step_impl(context, symbol_fname):
+    symbol_fpath = "data/" + symbol_fname
+    with open(symbol_fpath) as symbol_file:
+        context.symbols = symbol_file.read()
+    a=12
+
+
 @given('default scrapy project is deployed to local server')
 def step_impl(context):
     scrapyd = ScrapydManager()
@@ -94,7 +102,6 @@ def step_impl(context, timeout_str):
 def step_impl(context, num):
     client = MongoClient(os.environ["MONGO_CONN_STRING"])
     cursor = client.mstar.scraped_items.find({
-        "symbol": "F000013G37",
         "run_id": f"{context.crawl_id}"
     })
     docs = list(cursor)

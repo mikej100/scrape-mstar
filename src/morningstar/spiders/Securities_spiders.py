@@ -26,10 +26,6 @@ class Funds1Spider(scrapy.Spider):
     name = "funds1"
     def start_requests(self):
         symbols = json.loads(self.symbols)
-        # symbols = ib.Investmentsbook.get_ms_symbols()
-        if False:  # switch to dump symbol list as json
-            with open("data/symbols.json", "w") as outfile:
-                outfile.write(json.dumps(symbols))
     
         url_stem_equities = 'https://tools.morningstar.co.uk/uk/stockreport/default.aspx?Site=uk&id='
         
