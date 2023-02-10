@@ -23,7 +23,7 @@ class FundsSpider(scrapy.Spider):
     def start_requests(self):
         symbols = json.loads(self.symbols)
 
-        src_meta_fs = dict( src = "mstar", run_id=self.run_id, 
+        src_meta_fs = dict( src = "mstar", run_id=self.run_id,
                         security_type="fund", scrape_type="summary")
 
         for symbol in symbols['fund_symbols']:
@@ -33,7 +33,7 @@ class FundsSpider(scrapy.Spider):
                 cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fs)
             )
         #======================================
-        src_meta_cs = dict( src = "mstar", run_id=self.run_id, 
+        src_meta_cs = dict( src = "mstar", run_id=self.run_id,
                         security_type="cef", scrape_type="summary")
         for symbol in symbols['cef_symbols']:
             yield scrapy.Request(
@@ -42,13 +42,14 @@ class FundsSpider(scrapy.Spider):
                 meta= dict(
                     playwright = True,
                     playwright_include_page = True,
-                    playwright_page_methods = [PageMethod('wait_for_selector', 'span.as-of')]
+                    playwright_page_methods = 
+                        [PageMethod('wait_for_selector', 'span.as-of')]
                 ),
                 cb_kwargs=dict(symbol=symbol, src_meta=src_meta_cs)
             )
 
         #======================================
-        src_meta_es = dict( src = "mstar", run_id=self.run_id, 
+        src_meta_es = dict( src = "mstar", run_id=self.run_id,
                         security_type="equity", scrape_type="summary")
         for symbol in symbols['equity_symbols']:
             yield scrapy.Request(
@@ -59,7 +60,7 @@ class FundsSpider(scrapy.Spider):
 
         #======================================
 
-        src_meta_fp = dict( src = "mstar", run_id=self.run_id, 
+        src_meta_fp = dict( src = "mstar", run_id=self.run_id,
                         security_type="fund", scrape_type="performance")
         for symbol in symbols['fund_symbols']:
             yield scrapy.Request(
@@ -68,7 +69,7 @@ class FundsSpider(scrapy.Spider):
                 cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fp)
             )
         #======================================
-        src_meta_cp = dict( src = "mstar", run_id=self.run_id, 
+        src_meta_cp = dict( src = "mstar", run_id=self.run_id,
                         security_type="cef", scrape_type="performance")
         for symbol in symbols['cef_symbols']:
             yield scrapy.Request(
@@ -79,7 +80,7 @@ class FundsSpider(scrapy.Spider):
 
         #======================================
 
-        src_meta_ep = dict( src = "mstar", run_id=self.run_id, 
+        src_meta_ep = dict( src = "mstar", run_id=self.run_id,
                         security_type="equity", scrape_type="performance")
         for symbol in symbols['equity_symbols']:
             yield scrapy.Request(
@@ -89,7 +90,7 @@ class FundsSpider(scrapy.Spider):
             )
 
         #======================================
-        src_meta_fr = dict( src = "mstar", run_id=self.run_id, 
+        src_meta_fr = dict( src = "mstar", run_id=self.run_id,
                         security_type="fund", scrape_type="risk")
         for symbol in symbols['fund_symbols']:
             yield scrapy.Request(
@@ -136,9 +137,9 @@ class FundsSpider(scrapy.Spider):
             aa_data = "n/a"
         # aa_json = aa_df.to_json(orient="records")
 
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
         data = {
             "symbol": symbol,
-            "run_id": src_meta["run_id"],
             "src_meta": src_meta,
             "isin" : isin_text,
             "name": name_text,
@@ -179,8 +180,7 @@ class FundsSpider(scrapy.Spider):
         time_text = response.xpath("//p[@id='Col0PriceTime']/text()").get()
         isin_text =	response.xpath("//td[@id='Col0Isin']/text()").getall()[0]
         price_text = response.xpath("//span[@id='Col0Price']/text()").getall()[0]
-        price_info_text = response.xpath("//p[@id='Col0PriceTime']/text()").getall()
-        
+        price_info_text = response.xpath("//p[@id='Col0PriceTime']/text()").getall()  
 
         currency = re.search(r"\|\s(\w{3})", price_info_text[2]).group(1)
         yield {
@@ -189,7 +189,7 @@ class FundsSpider(scrapy.Spider):
             "isin" : isin_text,
             "name": response.xpath("//span[@class='securityName']/text()").get(),
             "price": price_text,
-            "currency" : re.search(r"\|\s(\w{3})", price_info_text[2]).group(1),
+            "currency" : currency,
             "date": re.search(r"\d{2}/\d{2}/\d{4}", price_info_text[0]).group()
         }
 
@@ -265,4 +265,3 @@ class FundsSpider(scrapy.Spider):
             "alpha_best_fit": alpha_text[1]
             }
         yield data
-
