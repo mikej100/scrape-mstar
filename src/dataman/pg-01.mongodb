@@ -1,0 +1,48 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+
+//latest_crawl = coll.find().sort({"run_id": -1}).limit(1)
+
+
+use('mstar');
+cursor = db.scraped_items.find({},{"src_meta.run_id": 1, "_id":0}).sort({"src_meta.run_id": -1}).limit(1)
+latest_crawl = cursor.next().src_meta.run_id
+print(latest_crawl)
+latest_data = db.scraped_items.find({"src_meta.run_id": latest_crawl},
+    {"symbol":1, "name":1, "price":1, "src_meta":1, "_id":0})
+
+// Summary scrape
+use('mstar');
+cursor = db.scraped_items.find({},{"src_meta.run_id": 1, "_id":0}).sort({"src_meta.run_id": -1}).limit(1)
+latest_crawl = cursor.next().src_meta.run_id
+print(latest_crawl)
+latest_data = db.scraped_items.find(
+    {"src_meta.run_id": latest_crawl, "src_meta.scrape_type": "summary"},
+    {"symbol":1, "name":1, "price":1, "src_meta":1, "_id":0})
+
+// Performance scrape 
+use('mstar'); 
+cursor = db.scraped_items.find({},{"src_meta.run_id": 1, "_id":0}).sort({"src_meta.run_id": -1}).limit(1)
+latest_crawl = cursor.next().src_meta.run_id
+print(latest_crawl)
+latest_data = db.scraped_items.find(
+    {"src_meta.run_id": latest_crawl, "src_meta.scrape_type": "performance"},
+    { "_id":0})
+
+// Risk scrape 
+use('mstar'); 
+cursor = db.scraped_items.find({},{"src_meta.run_id": 1, "_id":0}).sort({"src_meta.run_id": -1}).limit(1)
+latest_crawl = cursor.next().src_meta.run_id
+print(latest_crawl)
+latest_data = db.scraped_items.find(
+    {"src_meta.run_id": latest_crawl, "src_meta.scrape_type": "risk"},
+    { "_id":0})
+
+
+//ObjectId("63e57848c4ef26b5391da52c").getTimestamp()
+
+
+
+use('mstar');
+db.scraped_items.find({},{"src_meta.run_id":1})

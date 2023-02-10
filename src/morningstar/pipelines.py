@@ -1,4 +1,3 @@
-import os
 import pymongo
 
 # Define your item pipelines here
@@ -13,8 +12,6 @@ from itemadapter import ItemAdapter
 
 class MorningstarPipeline:
     def process_item(self, item, spider):
-        a =23/0
-
         return item
 
 class MongoDBPipeline(object):
@@ -22,8 +19,8 @@ class MongoDBPipeline(object):
     collection_name = "scraped_items"
 
     def __init__(self, mongo_uri, mongo_db):
-       self.mongo_uri = mongo_uri
-       self.mongo_db = mongo_db
+        self.mongo_uri = mongo_uri
+        self.mongo_db = mongo_db
         
     @classmethod
     def from_crawler(cls, crawler):

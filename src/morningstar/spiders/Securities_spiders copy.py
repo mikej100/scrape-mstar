@@ -6,101 +6,60 @@ import datetime
 import json
 from scrapy_playwright.page import PageMethod
 
-# pylint:disable=no-member  
+# pylint: disable=no-member  variables injected by scrapy invisible to pylint.
 """Base Morningstar urls for the specific security types.
 """
 logger = logging.getLogger("Securities_spiders")
 logger.info('Starting')
 
-url_fund = "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}"
-url_cef = "https://www.morningstar.co.uk/uk/report/cef/quote.aspx?t={sym}&tab={view}"
-url_equity = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=0{view}&SecurityToken={sym}%5d3%5d0%5dE0WWE$$ALL"
+url_funds = "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}"
+url_cefs = "https://www.morningstar.co.uk/uk/report/cef/quote.aspx?t={sym}&tab={view}"
+url_equities = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=0{view}&SecurityToken={sym}%5d3%5d0%5dE0WWE$$ALL"
+#url_equities = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?Site=uk{view}&id={sym}"
 
-class FundsSpider(scrapy.Spider):
-    name = "funds_all"
-    logger.info('Start_request next line')
-    
+"""Spider for summary data of various security types.
+
+    :yield: [description]
+    :rtype: [type]
+"""
+class Funds1Spider(scrapy.Spider):
+    name = "funds1"
     def start_requests(self):
         symbols = json.loads(self.symbols)
-
-        src_meta_fs = dict( src = "mstar", run_id=self.run_id, 
-                        security_type="fund", scrape_type="summary")
-
+    
+        url_stem_equities = 'https://tools.morningstar.co.uk/uk/stockreport/default.aspx?Site=uk&id='
+        
+ 
         for symbol in symbols['fund_symbols']:
             yield scrapy.Request(
+                url=url_funds.format(sym=symbol, view="0"),
                 callback=self.parse_funds_summ,
-                url=url_fund.format(sym=symbol, view="0"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fs)
+                cb_kwargs=dict(symbol=symbol, run_id=self.run_id)
             )
-        #======================================
-        src_meta_cs = dict( src = "mstar", run_id=self.run_id, 
-                        security_type="cef", scrape_type="summary")
+
+        logger.info("Starting cef symbols")
         for symbol in symbols['cef_symbols']:
             yield scrapy.Request(
+                url=url_cefs.format(sym=symbol, view="0"),
                 callback=self.parse_cefs_summ,
-                url=url_cef.format(sym=symbol, view="0"),
                 meta= dict(
                     playwright = True,
                     playwright_include_page = True,
                     playwright_page_methods = [PageMethod('wait_for_selector', 'span.as-of')]
                 ),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_cs)
+                cb_kwargs=dict(symbol=symbol, run_id=self.run_id)
             )
 
-        #======================================
-        src_meta_es = dict( src = "mstar", run_id=self.run_id, 
-                        security_type="equity", scrape_type="summary")
         for symbol in symbols['equity_symbols']:
             yield scrapy.Request(
+                url=url_equities.format(sym=symbol, view=""),
                 callback=self.parse_equities_summ,
-                url=url_equity.format(sym=symbol, view=""),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_es)
-            )
-
-        #======================================
-
-        src_meta_fp = dict( src = "mstar", run_id=self.run_id, 
-                        security_type="fund", scrape_type="performance")
-        for symbol in symbols['fund_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_funds_perf,
-                url=url_fund.format(sym=symbol, view="1"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fp)
-            )
-        #======================================
-        src_meta_cp = dict( src = "mstar", run_id=self.run_id, 
-                        security_type="cef", scrape_type="performance")
-        for symbol in symbols['cef_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_cef_perf,
-                url=url_cef.format(sym=symbol, view="1"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_cp)
-            )
-
-        #======================================
-
-        src_meta_ep = dict( src = "mstar", run_id=self.run_id, 
-                        security_type="equity", scrape_type="performance")
-        for symbol in symbols['equity_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_equities_perf,
-                url=url_equity.format(sym=symbol, view="&vw=pf"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_ep)
-            )
-
-        #======================================
-        src_meta_fr = dict( src = "mstar", run_id=self.run_id, 
-                        security_type="fund", scrape_type="risk")
-        for symbol in symbols['fund_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_funds_rating,
-                url=url_fund.format(sym=symbol, view="2"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fr)
+                cb_kwargs=dict(symbol=symbol, run_id=self.run_id)
             )
 
 
-    def parse_funds_summ(self, response, symbol, src_meta):
-        self.logger.info('Parsing funds summary')
+    def parse_funds_summ(self, response, symbol, run_id):
+        self.logger.info('Funds1 parsing funds')
         isin_text = response.xpath("//td[text()='ISIN']/following-sibling::*/text()").getall()[1]
         name_text = response.xpath("//div[@class='snapshotTitleBox']/h1/text()").getall()[0]
 
@@ -138,8 +97,7 @@ class FundsSpider(scrapy.Spider):
 
         data = {
             "symbol": symbol,
-            "run_id": src_meta["run_id"],
-            "src_meta": src_meta,
+            "run_id": run_id,
             "isin" : isin_text,
             "name": name_text,
             "price": re.search(r"[0-9]+\.?[0-9]+",price_text).group(),
@@ -151,7 +109,7 @@ class FundsSpider(scrapy.Spider):
             }
         yield data
 
-    async def parse_cefs_summ(self, response, symbol, src_meta):
+    async def parse_cefs_summ(self, response, symbol, run_id):
         page = response.meta['playwright_page']
         await page.screenshot(
             path= 'logs/screenshot%s.png' % datetime.datetime.now().strftime('%Y%m%dT%H%M%S'),
@@ -163,8 +121,7 @@ class FundsSpider(scrapy.Spider):
 
         data = {
             "symbol": symbol,
-            "src_meta": src_meta,
-            #"isin" : isin_text,
+            "run_id": run_id,
             "name": response.xpath("//span[@class='sal-component-title1']//text()").get(),
             "price": response.xpath("//div[contains(text(), 'Last Closing Share Price')]/..//text()").getall()[2],
             "currency" : info_text[0],
@@ -173,7 +130,7 @@ class FundsSpider(scrapy.Spider):
         yield data
 
 
-    def parse_equities_summ(self, response, symbol, src_meta):
+    def parse_equities_summ(self, response, symbol, run_id):
         # Cannot fetch the following data from page
         # sector_text = response.xpath("//h3[text()='Sector']/parent::*/text()").getall()
         time_text = response.xpath("//p[@id='Col0PriceTime']/text()").get()
@@ -185,7 +142,7 @@ class FundsSpider(scrapy.Spider):
         currency = re.search(r"\|\s(\w{3})", price_info_text[2]).group(1)
         yield {
             "symbol": symbol,
-            "src_meta": src_meta,
+            "run_id": run_id,
             "isin" : isin_text,
             "name": response.xpath("//span[@class='securityName']/text()").get(),
             "price": price_text,
@@ -193,7 +150,37 @@ class FundsSpider(scrapy.Spider):
             "date": re.search(r"\d{2}/\d{2}/\d{4}", price_info_text[0]).group()
         }
 
-    def parse_funds_perf(self, response, symbol, src_meta):
+
+
+class Funds2Spider(scrapy.Spider):
+    name = "funds2"
+
+    def start_requests(self):
+        symbols = json.loads(self.symbols)
+        for symbol in symbols['fund_symbols']:
+            yield scrapy.Request(
+                url=url_funds.format(sym=symbol, view="1"),
+                callback=self.parse_funds_perf,
+                cb_kwargs=dict(symbol=symbol, run_id=self.run_id)
+            )
+
+        for symbol in symbols['cef_symbols']:
+            yield scrapy.Request(
+                url=url_cefs.format(sym=symbol, view="1"),
+                callback=self.parse_cef_perf,
+                cb_kwargs=dict(symbol=symbol, run_id=self.run_id)
+            )
+
+        for symbol in symbols['equity_symbols']:
+            yield scrapy.Request(
+                url=url_equities.format(sym=symbol, view="&vw=pf"),
+                callback=self.parse_equities_perf,
+                cb_kwargs=dict(symbol=symbol, run_id=self.run_id)
+            )
+
+
+    def parse_funds_perf(self, response, symbol, run_id):
+
         tr_ret_text =  response.xpath(
             "//table[contains(@class, 'returnsTrailingTable')]//td[contains(@class, 'col2')]//text()") \
             .getall()
@@ -203,12 +190,12 @@ class FundsSpider(scrapy.Spider):
 
         data = {
             "symbol" : symbol,
-            "src_meta": src_meta,
+            "run_id": run_id,
             "trailing_returns" : trailing_returns
             }
         yield data
 
-    def parse_cef_perf(self, response, symbol, src_meta):
+    def parse_cef_perf(self, response, symbol, run_id):
         tr_price_text = response.xpath(
             "//div[@id='TrailingReturns']//tr[@class='rowSecurity']//text()") .getall()
         tr_nav_text = response.xpath(
@@ -224,12 +211,14 @@ class FundsSpider(scrapy.Spider):
 
         data = {
             "symbol" : symbol,
-            "src_meta": src_meta,
+            "run_id": run_id,
+            "trailing_returns" : trailing_returns_price,
+            "trailing_returns_cef_nav" : trailing_returns_nav
             }
         yield data
 
 
-    def parse_equities_perf(self, response, symbol, src_meta):
+    def parse_equities_perf(self, response, symbol, run_id):
         tr_text = response.xpath(
             "//div[@id='TrailingReturns']//tr[@class='rowSecurity']//text()") .getall()
 
@@ -240,11 +229,32 @@ class FundsSpider(scrapy.Spider):
 
         yield {
             "symbol" : symbol,
-            "src_meta": src_meta,
+            "run_id": run_id,
             "trailing_returns" : trailing_returns
         }
 
-    def parse_funds_rating(self, response, symbol, src_meta):
+class Funds3Spider(scrapy.Spider):
+    """Scrape risk and ratings data from Morningstar website for funds.
+    Write to funds3.json.
+
+    :param scrapy: [description]
+    :type scrapy: [type]
+    :yield: [description]
+    :rtype: [type]
+    """
+    name = "funds3"
+
+    def start_requests(self):
+        symbols = json.loads(self.symbols)
+        for symbol in symbols['fund_symbols']:
+            yield scrapy.Request(
+                url=url_funds.format(sym=symbol, view="2"),
+                callback=self.parse_funds_rating,
+                cb_kwargs=dict(symbol=symbol, run_id=self.run_id)
+            )
+
+
+    def parse_funds_rating(self, response, symbol, run_id):
 
         sharpe_text =  response.xpath(
              "//td[text()='3-Yr Sharpe Ratio']/following-sibling::td/text()") .get()
@@ -257,12 +267,13 @@ class FundsSpider(scrapy.Spider):
 
         data = {
             "symbol" : symbol,
-            "src_meta": src_meta,
+            "run_id": run_id,
             "sharpe" : sharpe_text,
             "beta_standard": beta_text[0],
             "beta_best_fit": beta_text[1],
             "alpha_standard": alpha_text[0],
             "alpha_best_fit": alpha_text[1]
+
             }
         yield data
 

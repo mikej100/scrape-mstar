@@ -1,5 +1,5 @@
 from hamcrest import *
-from securities_db import crawl_data as cd
+from dataman import crawl_data as cd
 
 
 def test_find_last_crawl():
