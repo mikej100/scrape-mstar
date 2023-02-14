@@ -1,0 +1,8 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Delete documents with crawl_id "test_crawl..."
+use('mstar');
+test_crawl_docs = db.scraped_items
+    .deleteMany({"src_meta.run_id": {$regex: /test_crawl.*/} })
+    ;

@@ -1,5 +1,6 @@
 import datetime
 import glob
+import logging
 import os
 import time
 from behave import given, when, then  # pylint: disable=no-name-in-module
@@ -8,10 +9,12 @@ from pymongo import MongoClient
 
 # from .src import scrapyd_manager
 from scrapyd_manager import ScrapydManager
+from run_securities import run_securities
+from dataman import crawl_data
 # pylint: disable=function-redefined
 # pylint:  disable=missing-function-docstring
 
-# logger = logging.getLogger(__name__j)
+logger = logging.getLogger(__name__)
 # file_handler = logging.FileHandler(f"{os.getcwd()}/logs/")
 
 
@@ -57,8 +60,8 @@ def step_impl(context):
 @when('scrape-mstar is invoked')
 def step_impl(context):
     context.crawl_id = "crawl_" + datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
-    from run_securities import run_securities
     run_securities(context.symbols, context.crawl_id)
+    logger.info(f"Crawl scheduled. crawl_id: {context.crawl_id}")
 
 
 @when('a small job is submitted')
@@ -100,9 +103,7 @@ def step_impl(context, timeout_str):
 
 @then('"{num}" new documents are created in MongoDB Atlas database')
 def step_impl(context, num):
-    client = MongoClient(os.environ["MONGO_CONN_STRING"])
-    cursor = client.mstar.scraped_items.find({
-        "run_id": f"{context.crawl_id}"
-    })
-    docs = list(cursor)
-    assert_that(docs, has_length(num))
+    secdb = crawl_data.SecuritiesDb()
+    timer = secdb.wait_for_crawl(context.crawl_id,10)
+    all_data = secdb.get_crawl_all(context.crawl_id)
+    assert_that(all_data, has_length(int(num)))

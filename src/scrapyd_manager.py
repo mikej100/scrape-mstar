@@ -43,7 +43,7 @@ class ScrapydManager():
     """    
     def __init__(self):
         self.project = "morningstar"
-        self.spider = "funds1"
+        self.spider = "funds_all"
         self.scrapyd = ScrapydAPI(target="http://localhost:6800")
 
 

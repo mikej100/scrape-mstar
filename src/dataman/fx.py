@@ -64,7 +64,8 @@ def xldate_to_pxdtime(xldate):
     return (dt)
 
 class Fx:
-
+    """Currency exchange rate methods
+    """
 
     def __init__(self, currencies = "GBPUSD"):
         self.currencies = currencies

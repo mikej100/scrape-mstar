@@ -162,6 +162,7 @@ class FundsSpider(scrapy.Spider):
         # info under chart with currency and date.
         info_text = response.xpath("//div[@class='sal-mip-quote__indicate']//text()").getall()
 
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
         data = {
             "symbol": symbol,
             "src_meta": src_meta,
@@ -183,6 +184,7 @@ class FundsSpider(scrapy.Spider):
         price_info_text = response.xpath("//p[@id='Col0PriceTime']/text()").getall()  
 
         currency = re.search(r"\|\s(\w{3})", price_info_text[2]).group(1)
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
         yield {
             "symbol": symbol,
             "src_meta": src_meta,
@@ -201,6 +203,7 @@ class FundsSpider(scrapy.Spider):
         periods = [ '1d', '1w', '1m', '3m', '6m', 'ytd', '1y', '3y']
         trailing_returns = dict( zip( periods, values))
 
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
         data = {
             "symbol" : symbol,
             "src_meta": src_meta,
@@ -222,6 +225,7 @@ class FundsSpider(scrapy.Spider):
         tr_nav_values = [item for item in tr_nav_text[1:10]]
         trailing_returns_nav = dict( zip( periods, tr_nav_values))
 
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
         data = {
             "symbol" : symbol,
             "src_meta": src_meta,
@@ -238,6 +242,7 @@ class FundsSpider(scrapy.Spider):
         tr_values = [item for item in tr_text[1:8]]
         trailing_returns = dict( zip( periods, tr_values))
 
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
         yield {
             "symbol" : symbol,
             "src_meta": src_meta,
@@ -255,6 +260,7 @@ class FundsSpider(scrapy.Spider):
         alpha_text = response.xpath(
             "//td[text()='3-Yr Alpha']/following-sibling::td/text()").getall()
 
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
         data = {
             "symbol" : symbol,
             "src_meta": src_meta,

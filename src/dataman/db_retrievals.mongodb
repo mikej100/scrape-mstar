@@ -1,10 +1,16 @@
 // MongoDB Playground
 // Use Ctrl+Space inside a snippet or a string literal to trigger completions.
 
+// Find documents from last crawl symbol, scrape_type and name
+use('mstar');
+cursor = db.scraped_items.find({},{"src_meta.run_id": 1, "_id":0}).sort({"src_meta.run_id": -1}).limit(1)
+latest_crawl = cursor.next().src_meta.run_id
+print(latest_crawl)
+latest_data = db.scraped_items.find({"src_meta.run_id": latest_crawl},
+    {"symbol":1, "name":1, "src_meta.scrape_type":1, "_id":0})
 
-//latest_crawl = coll.find().sort({"run_id": -1}).limit(1)
 
-
+// Find documents from last crawl All data
 use('mstar');
 cursor = db.scraped_items.find({},{"src_meta.run_id": 1, "_id":0}).sort({"src_meta.run_id": -1}).limit(1)
 latest_crawl = cursor.next().src_meta.run_id

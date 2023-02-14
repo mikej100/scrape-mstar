@@ -17,7 +17,7 @@ import datetime
 import run_securities as rs
 
 def test_run_single_security_of_each_type_spider():
-    crawl_id = "test_crawl_" + datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
+    crawl_id = "crawl_" + datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
     symbols = '{"fund_symbols": ["F000013G37"], "cef_symbols": ["F000011FTC"], "equity_symbols": ["0P0000004C"]}'
     rs.run_securities(symbols, crawl_id)
 
@@ -27,7 +27,7 @@ def test_run_single_security_of_each_type_spider():
     assert_that(timer, is_(greater_than_or_equal_to(0)))
    
 def test_run_single_fund_spider():
-    crawl_id = "test_crawl_" + datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
+    crawl_id = "crawl_" + datetime.datetime.now().strftime('%Y%m%dT%H%M%S')
     symbols = '{"fund_symbols": ["F000013G37"], "cef_symbols": [], "equity_symbols": []}'
     rs.run_securities(symbols, crawl_id)
 

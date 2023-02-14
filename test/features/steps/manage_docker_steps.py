@@ -12,7 +12,7 @@ from scrapyd_manager import ScrapydManager
 # pylint: disable=function-redefined
 # pylint:  disable=missing-function-docstring
 
-logger = logging.getLogger("managed_scrapy_steps")
+logger = logging.getLogger("manage_docker_steps")
 
 @given('scrapyd is not running on localhost')
 def step_impl(context):
@@ -55,6 +55,8 @@ def step_impl(context):
 
 @when('scrapyd service is stopped on localhost')
 def step_impl(context):
+    if not  hasattr(context, "scrapyd") :
+        context.scrapyd = ScrapydManager()
     assert_that(
         context.scrapyd.stop_service(),
         is_(True),
