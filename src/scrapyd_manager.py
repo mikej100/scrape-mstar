@@ -18,7 +18,8 @@ def wait_for_true(self,timeout, interval=SHORT_WAIT):
     :type timeout: Float
     :param interval: time to wait between attempts, in seconds, defaults to SHORT_WAIT
     :type interval: Float, optional
-    """    
+    """
+
     def the_real_decorator(function):
         def wrapper(*args, **kwargs):
             timeleft = timeout
@@ -62,6 +63,20 @@ class ScrapydManager():
             return True
         else:
             return False
+
+    def delete_pid_file(self):
+        """ 
+        Search for and destroy twistd.pid file in project directory.
+
+        If scrapyd service has uncontrolled termination the presence of 
+        .pid file will prevent restarting by the same process id. This
+        can be problem when restarting in a container.
+        """        
+        try:
+            os.remove("twistd.pid")
+        except OSError:
+            pass
+        return
 
 
     def start_service(self) -> bool:

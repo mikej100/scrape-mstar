@@ -41,6 +41,8 @@ def step_impl(context):
 
 @when('scapyd is started on localhost')
 def step_impl(context):
+    if not  hasattr(context, "scrapyd") :
+        context.scrapyd = ScrapydManager()
     assert_that(
         context.scrapyd.start_service(),
         is_(True)

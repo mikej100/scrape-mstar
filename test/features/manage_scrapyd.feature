@@ -3,6 +3,7 @@ As an service operations manager
 I want to manage scrapyd service
 So that the scraping services can be used by higher level python script
 
+@test_start
 Scenario: Start scrapy on local host
 Given scrapyd is not running on localhost
 When scapyd is started on localhost
