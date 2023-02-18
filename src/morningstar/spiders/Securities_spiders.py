@@ -10,7 +10,6 @@ from scrapy_playwright.page import PageMethod
 """Base Morningstar urls for the specific security types.
 """
 logger = logging.getLogger("Securities_spiders")
-logger.info('Starting')
 
 url_fund = "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}"
 url_cef = "https://www.morningstar.co.uk/uk/report/cef/quote.aspx?t={sym}&tab={view}"
@@ -18,7 +17,6 @@ url_equity = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=0{
 
 class FundsSpider(scrapy.Spider):
     name = "funds_all"
-    logger.info('Start_request next line')
     
     def start_requests(self):
         symbols = json.loads(self.symbols)

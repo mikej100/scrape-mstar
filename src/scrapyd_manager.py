@@ -1,9 +1,13 @@
+import logging
 import os
 import subprocess
 import time
 from scrapyd_api import ScrapydAPI
 
+
 # check if scrapyd running
+
+logger = logging.getLogger(__name__)
 
 SHORT_WAIT = 1
 MEDIUM_WAIT = 1.5
@@ -50,6 +54,7 @@ class ScrapydManager():
 
     def is_running(self):
         try:
+            logger.debug("def is_running: request scrapyd.list_projects")
             projects = self.scrapyd.list_projects()
             return True
         except:
@@ -88,12 +93,16 @@ class ScrapydManager():
         False
         :rtype: bool
         """        
+        logger.debug("def start_servide: calling self.is_running")
         if self.is_running():
+            logger.debug("def start_service: service already running")
             return True
         else:
             #server_process = subprocess.Popen(["scrapyd"], cwd=f"{os.getcwd()}/src/morningstar")
+            logger.debug("def start_service: calling Popen(scrapyd)")
             server_process = subprocess.Popen(["scrapyd"])
             time.sleep(SHORT_WAIT)
+            logger.debug("def start_service: calling self.is_running")
             result = self.is_running()
         return result
     
@@ -120,10 +129,14 @@ class ScrapydManager():
         :rtype: bool
         """        
         if self.is_project_deployed():
+            logger.debug("def deploy_default: projec already deployed")
             return True
         else:
+            logger.debug("def deploy_default: calling Popen(scrapyd-deploy)")
             deploy_process = subprocess.Popen(["scrapyd-deploy", "default"], cwd=f"{os.getcwd()}/src")
             time.sleep(MEDIUM_WAIT)
+            logger.debug("def deploy_default: returned from Popen(deploy) calling is_project_deploye")
+            
             result = self.is_project_deployed("default")
         return result
 

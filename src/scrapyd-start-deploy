@@ -16,6 +16,7 @@ from scrapyd_manager import ScrapydManager
 
 default_container_lifetime =  300
 
+import scrape_utils
 #try:
 
 if len(sys.argv)  > 1:

@@ -10,6 +10,7 @@ RUN pip3 install -r requirements.txt
 COPY ./src ./src
 COPY ./logs ./logs
 COPY ./scrapyd.conf ./scrapyd.conf
+COPY ./logging.yaml ./logging.yaml
 
  EXPOSE 6800
 

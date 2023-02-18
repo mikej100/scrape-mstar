@@ -1,14 +1,15 @@
 from hamcrest import *
 import logging
-import logging.config
-import yaml
 
 import scrapyd_manager
+import scrape_utils
 
 
-with open("./logging.yaml", "r") as stream:
-    config = yaml.load(stream, Loader=yaml.FullLoader)
-logging.config.dictConfig(config)
+# with open("./logging.yaml", "r") as stream:
+#     config = yaml.load(stream, Loader=yaml.FullLoader)
+# logging.config.dictConfig(config)
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,3 +24,11 @@ def test_delete_twistd_pid_file():
     scrapyd_mgr = scrapyd_manager.ScrapydManager()
     scrapyd_mgr.delete_pid_file()
     pass
+
+
+def test_is_scrapy_running():
+    scrapyd_mgr = scrapyd_manager.ScrapydManager()
+    logger.debug("test_is_scrapy_running")
+    result = scrapyd_mgr.is_running()
+    pass
+
