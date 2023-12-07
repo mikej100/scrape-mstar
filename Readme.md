@@ -51,6 +51,10 @@ pip install requirements.txt
 pip install git+https://github.com/scrapy/scrapyd-client.git
 playwright install
 
+### Configure MongoDB connection
+Set envrionment variable MONGO_CONN_STRING=<mongodb-connectionstring>. You may want to do this in .bashrc or VScode project settings.
+
+
 ### Run in VS Code
 To run in debug 
     launch "wipBehave" will run scenarios tagged with @wip

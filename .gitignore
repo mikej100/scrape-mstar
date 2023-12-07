@@ -2,10 +2,13 @@
 # Project-specific entries
 # ------------------------
 
-logs/*
+# TODO include the folder name /logs, but none of the contents.
+
 src/morningstar/logs/*
 data/*
 env/
+logs/*
+!logs/.gitkeep
 venv/
 project.egg-info/
 dbs/
