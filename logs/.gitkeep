@@ -1,0 +1,2 @@
+This file is present so git can include the folder in the repo, and
+.gitignore is configured to exclude all other files in the folder.
