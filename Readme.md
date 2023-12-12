@@ -1,22 +1,38 @@
 Financial data webscraping service
 ==================================
 
-scrape-mstar is used to scrape financial data from financial information
-web pages.
+scrape-mstar scrapes data from financial information
+web pages on financial securities for use by a
+separate portfolio holdings analysis application(holdings_ana).
 
-The service is under development and not suitable for others to use, yet.
+The application is under development.
 
-The full service runs on Linux platform only. This is due to one of the 
-web page scraping components not working on Windows. The package concerned is 
-Playwright and it may become useable on Windows in the future. The forex python
-script can be run on Windows.
+The service is invoked by sending an http request to the scrapyd service.
+The body of the request is json which specifies the symbols and type of the 
+securities for which financial data is required. 
 
-The service runs as a web service by scrapyd. scrapyd can run as a local
-service, and on a Docker container. The suite includes scripts to build and run
-the container, on local machine currently.
+The scrapyd service requests pages on the financial services website
+for each of the securities specified and retrieve information from three sub-pages: 
+summary, performance and risk. Security types covered are stocks and different types of 
+fund. Data retrieved includes market price, date, currency,
+ regions, sectors, trailing returns, Sharpe, beta and alpha performance measures. 
+ The data is written to MongoDB database so that it can be queried by 
+ the securities holdings analysis application.
 
-Results are written to local files in the project structure. The design is to 
-write results to MongoDB Atlas database.
+To support the development lifecycle, the following capabilities are supported
+- invoke the scrapy run from the development environment; for screen scraping code
+development
+- deploy the scrapy capability to scrapyd to run as a service, to start and stop
+the service, and to schedule scraping runs on the service. To test the service and
+for it to be used by the analysis application running on the same host
+- deploy the scrapyd service to Docker container, to start and stop the container and
+to invoke the scraping service. To to test the container deployment and to deploy the
+service as a cloud-hosted service in the future.  The container is configured currently
+ to run on the host machine.
+
+The service runs on Linux platform. This is necessary because the Playwright 
+scraping library which is required to handle certain types of security is not 
+supported on Windows.  Hence the need to run the scraper as a web service. 
 
 Foreign exchange function is included in the suite. This uses a set of historic 
 GPB-USD exchange rates hosted on the project-specific MongoDB Atlas database.
@@ -31,20 +47,8 @@ Deployment: Docker container, MongoDB Atlas cloud-hosted database
 Testing: Behave, pytest
 IDE: VS Code (some vs-specific debug configurations are included in the repo)
 
-Running the spider scrapers
-===========================
-
-Check the investments workbook is not open in Excel.
-
-
-In vsCode
----------
-### Switch to required version of Python
-In Terminal enter
-    .\venv\Scripts\activate
-
-### Check configuration
-Name of the investments workbook
+To run the scraping service in various modes refer to the corresponding tests in 
+the Behave feature files or pytest or the instructions below.
 
 ### Installation
 pip install requirements.txt
@@ -52,13 +56,14 @@ pip install git+https://github.com/scrapy/scrapyd-client.git
 playwright install
 
 ### Configure MongoDB connection
-Set envrionment variable MONGO_CONN_STRING=<mongodb-connectionstring>. You may want to do this in .bashrc or VScode project settings.
+Set envrionment variable MONGO_CONN_STRING=<mongodb-connectionstring>. 
+You may want to do this in .bashrc or VScode project settings.
 
 
 ### Run in VS Code
 To run in debug 
-    launch "wipBehave" will run scenarios tagged with @wip
-    launch Behave: current file (feature file)
+    launch "wipBehave" to run scenarios tagged with @wip
+    launch Behave: to run current file feature file
     launch allSecSpiders or CrawlFunds1
 
 ### Deploy to scrapyd
