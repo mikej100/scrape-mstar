@@ -4,10 +4,11 @@ import subprocess
 import time
 from scrapyd_api import ScrapydAPI
 
+from scrapy.utils.project import get_project_settings
 
 # check if scrapyd running
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("scrapyd_manager")
 
 SHORT_WAIT = 1
 MEDIUM_WAIT = 1.5

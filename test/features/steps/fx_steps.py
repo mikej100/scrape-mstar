@@ -4,7 +4,7 @@ import datetime
 import dateutil.parser as dparser
 from hamcrest import *
 
-from dataman.fx import Fx
+from src.dataman.fx import Fx
 
 # pylint: disable=function-redefined
 # pylint:  disable=missing-function-docstring

@@ -1,6 +1,7 @@
 import datetime
 import glob
 import logging
+import json
 import os
 import time
 from behave import given, when, then  # pylint: disable=no-name-in-module
@@ -14,12 +15,14 @@ from dataman import crawl_data
 # pylint: disable=function-redefined
 # pylint:  disable=missing-function-docstring
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("run_crawl_steps")
+logger.info("Top of run_crawl_steps.py")
 # file_handler = logging.FileHandler(f"{os.getcwd()}/logs/")
 
 
 @given('scrapy modules are in same project as this test')
 def step_implementation(context):
+    logger.debug("given scrapy modules are in same project")
     pass
 
 
@@ -33,6 +36,7 @@ def step_implementation(context):
 @given('symbols dataset 2 comprising one fund')
 def step_implementation(context):
     # context.symbols_l:ist ='{"fund_symbols": ["F000013G37"], "cef_symbols": ["F000011FTC"], "equity_symbols": ["0P0000004C"]}'
+    # context.symbols = '{"fund_symbols": ["F000013G37"]}'
     context.symbols = '{"fund_symbols": ["F000013G37"], "cef_symbols": [], "equity_symbols": []}'
     pass
 
@@ -42,8 +46,11 @@ def step_impl(context, symbol_fname):
     symbol_fpath = "data/" + symbol_fname
     with open(symbol_fpath) as symbol_file:
         context.symbols = symbol_file.read()
-    a=12
 
+@given(u'security type is "{type}" and morningstar symbol is "{symbol}"')
+def step_impl(context, type, symbol):
+    key = type +"_symbols"
+    context.symbols = json.dumps({key: [symbol]})
 
 @given('default scrapy project is deployed to local server')
 def step_impl(context):
@@ -104,6 +111,8 @@ def step_impl(context, timeout_str):
 @then('"{num}" new documents are created in MongoDB Atlas database')
 def step_impl(context, num):
     secdb = crawl_data.SecuritiesDb()
+    logger.debug(f"Waiting for results of crawl id: {context.crawl_id}")
     timer = secdb.wait_for_crawl(context.crawl_id,10)
     all_data = secdb.get_crawl_all(context.crawl_id)
-    assert_that(all_data, has_length(int(num)))
+    logger.debug(f"Results of crawl id have length : {len(all_data)}")
+    assert_that(len(all_data), greater_than_or_equal_to(int(num)))

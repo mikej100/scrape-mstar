@@ -11,9 +11,10 @@ from scrapy_playwright.page import PageMethod
 """
 logger = logging.getLogger("Securities_spiders")
 
-url_fund = "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}"
-url_cef = "https://www.morningstar.co.uk/uk/report/cef/quote.aspx?t={sym}&tab={view}"
-url_equity = "https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=0{view}&SecurityToken={sym}%5d3%5d0%5dE0WWE$$ALL"
+url_cef =   "https://www.morningstar.co.uk/uk/report/cef/quote.aspx?t={sym}&tab={view}"
+url_equity ="https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=0{view}&SecurityToken={sym}%5d3%5d0%5dE0WWE$$ALL"
+url_etf =   "https://www.morningstar.co.uk/uk/etf/snapshot/snapshot.aspx?&id={sym}&tab={view}"
+url_fund =  "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}"
 
 class FundsSpider(scrapy.Spider):
     name = "funds_all"
@@ -21,81 +22,100 @@ class FundsSpider(scrapy.Spider):
     def start_requests(self):
         symbols = json.loads(self.symbols)
 
-        src_meta_fs = dict( src = "mstar", run_id=self.run_id,
-                        security_type="fund", scrape_type="summary")
+        
 
-        for symbol in symbols['fund_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_funds_summ,
-                url=url_fund.format(sym=symbol, view="0"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fs)
-            )
+        src_meta_cs = dict( src = "mstar", run_id=self.run_id, security_type = "cef", scrape_type="summ")
+        src_meta_cp = dict( src = "mstar", run_id=self.run_id, security_type = "cef", scrape_type="performance")
+        src_meta_es = dict( src = "mstar", run_id=self.run_id, security_type = "equity", scrape_type="summ")
+        src_meta_ep = dict( src = "mstar", run_id=self.run_id, security_type = "equity", scrape_type="performance")
+        src_meta_fs = dict( src = "mstar", run_id=self.run_id, security_type = "fund", scrape_type="summ")
+        src_meta_fp = dict( src = "mstar", run_id=self.run_id, security_type = "fund", scrape_type="performance")
+        src_meta_fr = dict( src = "mstar", run_id=self.run_id, security_type = "fund", scrape_type="risk")
+        src_meta_ts = dict( src = "mstar", run_id=self.run_id, security_type = "etf", scrape_type="summ")
+        src_meta_tp = dict( src = "mstar", run_id=self.run_id, security_type = "etf", scrape_type="performance")
+        src_meta_tr = dict( src = "mstar", run_id=self.run_id, security_type = "etf", scrape_type="risk")
+        
+
+        try:
+            for symbol in symbols['fund_symbols']:
+                yield scrapy.Request(
+                    callback=self.parse_funds_summ,
+                    url=url_fund.format(sym=symbol, view="0"),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fs)
+                )
+                yield scrapy.Request(
+                    callback=self.parse_funds_perf,
+                    url=url_fund.format(sym=symbol, view="1"),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fp)
+                )
+                yield scrapy.Request(
+                    callback=self.parse_funds_rating,
+                    url=url_fund.format(sym=symbol, view="2"),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fr)
+                )
+        except KeyError:
+                pass
         #======================================
-        src_meta_cs = dict( src = "mstar", run_id=self.run_id,
-                        security_type="cef", scrape_type="summary")
-        for symbol in symbols['cef_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_cefs_summ,
-                url=url_cef.format(sym=symbol, view="0"),
-                meta= dict(
-                    playwright = True,
-                    playwright_include_page = True,
-                    playwright_page_methods = 
-                        [PageMethod('wait_for_selector', 'span.as-of')]
-                ),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_cs)
-            )
+        try:
+            for symbol in symbols['etf_symbols']:
+                yield scrapy.Request(
+                    callback=self.parse_etf_summ,
+                    url=url_etf.format(sym=symbol, view="0"),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_ts)
+                )
+                yield scrapy.Request(
+                    callback=self.parse_etf_perf,
+                    url=url_fund.format(sym=symbol, view="1"),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_tp)
+                )
+                yield scrapy.Request(
+                    callback=self.parse_etf_rating,
+                    url=url_fund.format(sym=symbol, view="2"),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_tr)
+                )
+        except KeyError:
+                pass
+        #======================================
+        try:
+            for symbol in symbols['cef_symbols']:
+                yield scrapy.Request(
+                    callback=self.parse_cefs_summ,
+                    url=url_cef.format(sym=symbol, view="0"),
+                    meta= dict(
+                        playwright = True,
+                        playwright_include_page = True,
+                        playwright_page_methods = 
+                            [PageMethod('wait_for_selector', 'span.as-of')]
+                    ),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_cs)
+                )
+
+                yield scrapy.Request(
+                    callback=self.parse_cef_perf,
+                    url=url_cef.format(sym=symbol, view="1"),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_cp)
+                )
+        except KeyError:
+            pass
 
         #======================================
-        src_meta_es = dict( src = "mstar", run_id=self.run_id,
-                        security_type="equity", scrape_type="summary")
-        for symbol in symbols['equity_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_equities_summ,
-                url=url_equity.format(sym=symbol, view=""),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_es)
-            )
+        try:
+            for symbol in symbols['equity_symbols']:
+                yield scrapy.Request(
+                    callback=self.parse_equities_summ,
+                    url=url_equity.format(sym=symbol, view=""),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_es)
+                )
+
+                yield scrapy.Request(
+                    callback=self.parse_equities_perf,
+                    url=url_equity.format(sym=symbol, view="&vw=pf"),
+                    cb_kwargs=dict(symbol=symbol, src_meta=src_meta_ep)
+                )
+        except KeyError:
+            pass
 
         #======================================
-
-        src_meta_fp = dict( src = "mstar", run_id=self.run_id,
-                        security_type="fund", scrape_type="performance")
-        for symbol in symbols['fund_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_funds_perf,
-                url=url_fund.format(sym=symbol, view="1"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fp)
-            )
-        #======================================
-        src_meta_cp = dict( src = "mstar", run_id=self.run_id,
-                        security_type="cef", scrape_type="performance")
-        for symbol in symbols['cef_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_cef_perf,
-                url=url_cef.format(sym=symbol, view="1"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_cp)
-            )
-
-        #======================================
-
-        src_meta_ep = dict( src = "mstar", run_id=self.run_id,
-                        security_type="equity", scrape_type="performance")
-        for symbol in symbols['equity_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_equities_perf,
-                url=url_equity.format(sym=symbol, view="&vw=pf"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_ep)
-            )
-
-        #======================================
-        src_meta_fr = dict( src = "mstar", run_id=self.run_id,
-                        security_type="fund", scrape_type="risk")
-        for symbol in symbols['fund_symbols']:
-            yield scrapy.Request(
-                callback=self.parse_funds_rating,
-                url=url_fund.format(sym=symbol, view="2"),
-                cb_kwargs=dict(symbol=symbol, src_meta=src_meta_fr)
-            )
 
 
     def parse_funds_summ(self, response, symbol, src_meta):
@@ -147,6 +167,33 @@ class FundsSpider(scrapy.Spider):
             "asset_allocation": aa_data,
             "top_region": tr_data,
             "top_sectors": ts_data
+            }
+        yield data
+
+
+    def parse_etf_summ(self, response, symbol, src_meta):
+        self.logger.info('Parsing etf summary')
+        isin_text = response.xpath("//td[text()='ISIN']/following-sibling::*/text()").getall()[1]
+        name_text = response.xpath("//div[@class='snapshotTitleBox']/h1/text()").getall()[0]
+
+        price_elems =  response.xpath("//td[text()='NAV']/following-sibling::*/text()").getall()
+        if len(price_elems) > 1 :
+            price_text = price_elems[1]
+            date_text =  response.xpath("//td[text()='NAV']/span/text()").get()
+        else:
+            # Some funds have Closing Price rather than NAV
+            price_text =  response.xpath("//td[text()='Closing Price']/following-sibling::*/text()").getall()[1]
+            date_text =  response.xpath("//td[text()='Closing Price']/span/text()").get()
+
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
+        data = {
+            "symbol": symbol,
+            "src_meta": src_meta,
+            "isin" : isin_text,
+            "name": name_text,
+            "price": re.search(r"[0-9]+\.?[0-9]+",price_text).group(),
+            "currency" : re.search("^.{3}", price_text).group(),
+            "date": date_text,
             }
         yield data
 
@@ -209,6 +256,23 @@ class FundsSpider(scrapy.Spider):
             }
         yield data
 
+
+    def parse_etf_perf(self, response, symbol, src_meta):
+        tr_ret_text =  response.xpath(
+            "//table[contains(@class, 'returnsTrailingTable')]//td[contains(@class, 'col2')]//text()") \
+            .getall()
+        values = [item for item in tr_ret_text[1:9]]
+        periods = [ '1d', '1w', '1m', '3m', '6m', 'ytd', '1y', '3y']
+        trailing_returns = dict( zip( periods, values))
+
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
+        data = {
+            "symbol" : symbol,
+            "src_meta": src_meta,
+            "trailing_returns" : trailing_returns
+            }
+        yield data
+
     def parse_cef_perf(self, response, symbol, src_meta):
         tr_price_text = response.xpath(
             "//div[@id='TrailingReturns']//tr[@class='rowSecurity']//text()") .getall()
@@ -248,6 +312,29 @@ class FundsSpider(scrapy.Spider):
         }
 
     def parse_funds_rating(self, response, symbol, src_meta):
+
+        sharpe_text =  response.xpath(
+             "//td[text()='3-Yr Sharpe Ratio']/following-sibling::td/text()") .get()
+
+        beta_text = response.xpath(
+            "//td[text()='3-Yr Beta']/following-sibling::td/text()").getall()
+
+        alpha_text = response.xpath(
+            "//td[text()='3-Yr Alpha']/following-sibling::td/text()").getall()
+
+        src_meta.update({"created": datetime.datetime.now().timestamp()})
+        data = {
+            "symbol" : symbol,
+            "src_meta": src_meta,
+            "sharpe" : sharpe_text,
+            "beta_standard": beta_text[0],
+            "beta_best_fit": beta_text[1],
+            "alpha_standard": alpha_text[0],
+            "alpha_best_fit": alpha_text[1]
+            }
+        yield data
+
+    def parse_etf_rating(self, response, symbol, src_meta):
 
         sharpe_text =  response.xpath(
              "//td[text()='3-Yr Sharpe Ratio']/following-sibling::td/text()") .get()

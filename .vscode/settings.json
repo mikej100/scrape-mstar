@@ -18,8 +18,14 @@
     "python.testing.pytestArgs": [
         "test"
     ],
-   "python.analysis.extraPaths": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/src/", // "terminal.integrated.env.linux": {
-   "python.pythonPath": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/src/", // "terminal.integrated.env.linux": {
+   "python.analysis.extraPaths": [
+    "src",
+    "src/morningstar"
+], // "terminal.integrated.env.linux": {
+"python.pythonPath": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/src/",
+"python.autoComplete.extraPaths": [
+    
+], // "terminal.integrated.env.linux": {
     //         "PATH": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env:${env:PATH}",
     //         "PYTHONPATH": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env:${env:PYTHONPATH}",
     // }

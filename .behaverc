@@ -2,4 +2,4 @@
 paths = test/features/
         test/features/steps/
 show_skipped = false 
-logging = INFO
+logging = DEBUG

@@ -1,6 +1,7 @@
 import os
 import logging
 import subprocess
+import sys
 import time
 
 from behave import given, when, then #pylint: disable=no-name-in-module
@@ -12,11 +13,13 @@ from scrapyd_manager import ScrapydManager
 # pylint: disable=function-redefined
 # pylint:  disable=missing-function-docstring
 
-logger = logging.getLogger("managed_scrapy_steps")
+#from scrapy.utils.project import get_project_settings
+logger = logging.getLogger("manage_scrapyd_steps")
 
 @given('scrapyd is not running on localhost')
 def step_impl(context):
     context.scrapyd = ScrapydManager()
+    logger.debug(f"given scrapyd is not running")
     assert_that (
         context.scrapyd.stop_service(),
         is_(True),
