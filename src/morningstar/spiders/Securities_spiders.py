@@ -24,14 +24,14 @@ class FundsSpider(scrapy.Spider):
 
         
 
-        src_meta_cs = dict( src = "mstar", run_id=self.run_id, security_type = "cef", scrape_type="summ")
+        src_meta_cs = dict( src = "mstar", run_id=self.run_id, security_type = "cef", scrape_type="summary")
         src_meta_cp = dict( src = "mstar", run_id=self.run_id, security_type = "cef", scrape_type="performance")
-        src_meta_es = dict( src = "mstar", run_id=self.run_id, security_type = "equity", scrape_type="summ")
+        src_meta_es = dict( src = "mstar", run_id=self.run_id, security_type = "equity", scrape_type="summary")
         src_meta_ep = dict( src = "mstar", run_id=self.run_id, security_type = "equity", scrape_type="performance")
-        src_meta_fs = dict( src = "mstar", run_id=self.run_id, security_type = "fund", scrape_type="summ")
+        src_meta_fs = dict( src = "mstar", run_id=self.run_id, security_type = "fund", scrape_type="summary")
         src_meta_fp = dict( src = "mstar", run_id=self.run_id, security_type = "fund", scrape_type="performance")
         src_meta_fr = dict( src = "mstar", run_id=self.run_id, security_type = "fund", scrape_type="risk")
-        src_meta_ts = dict( src = "mstar", run_id=self.run_id, security_type = "etf", scrape_type="summ")
+        src_meta_ts = dict( src = "mstar", run_id=self.run_id, security_type = "etf", scrape_type="summary")
         src_meta_tp = dict( src = "mstar", run_id=self.run_id, security_type = "etf", scrape_type="performance")
         src_meta_tr = dict( src = "mstar", run_id=self.run_id, security_type = "etf", scrape_type="risk")
         
