@@ -5,7 +5,12 @@ import re
 # TODO make into singleton so open book just once.
 
 class Investmentsbook():
-    """Manage interactions with investments workbook. The investments workbook 
+    """
+    Investmentsbook class is no longer utilised and this code is not used.
+    Interaction with the investments book is mediate by the analysis package
+    holdings-ana.
+    
+    Manage interactions with investments workbook. The investments workbook 
     is  the source for securities ids to be processed. The location of the 
     workbook is specified by an invironment variable
     """

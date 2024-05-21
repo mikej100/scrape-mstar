@@ -1,7 +1,7 @@
 Feature: Invoke scrap-morningstar with list of symbols
-As investment analyst 
+As scrape-morningstar developer  
 I want to scrape financial information from morningstar for a set of securities
-So that I can use the data in my analysis programs
+So that I can develop scraping facility to provide securities data for holdings analysis
 
 @fast #@wip @fast1
 Scenario: Invoke one fund crawl running in same project, write to MongoDB
@@ -18,7 +18,6 @@ Then "3" new documents are created in MongoDB Atlas database
 
 
 
-@deploy
 Scenario: Run crawl for each type in same project, write to mongo
 Given scrapy modules are in same project as this test
 And symbols dataset 1 comprising one each of fund, cef and equity

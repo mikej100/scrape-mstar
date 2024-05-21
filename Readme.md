@@ -7,18 +7,40 @@ separate portfolio holdings analysis application (holdings_ana).
 
 The application is under development.
 
-The service is invoked by sending an http request to the scrapyd service.
-The body of the request is json which specifies the symbols and type of the 
-securities for which financial data is required. 
+The service is invoked by sending a request to the scrapyd service with a list
+of symbols and types of securities. The symbols for each security are defined
+for the financial information service used for the web lookup.
 
 The scrapyd service requests pages on the financial services website
-for each of the securities specified and retrieve information from three sub-pages: 
+and retrieve information from three sub-pages: 
 summary, performance and risk. Security types covered are stocks and different types of 
 fund. Data retrieved includes market price, date, currency,
  regions, sectors, trailing returns, Sharpe, beta and alpha performance measures. 
  The data is written to MongoDB database so that it can be queried by 
  the securities holdings analysis application.
 
+## Installation
+pip install requirements.txt
+
+pip install git+https://github.com/scrapy/scrapyd-client.git
+
+playwright install
+
+### Configure MongoDB connection
+Set envrionment variable MONGO_CONN_STRING=<mongodb-connectionstring>. 
+You may want to do this in .bashrc or VScode project settings.
+
+To run 
+-----
+in the home directory, on the command line enter
+    scrapyd
+
+Or run the behave test "Deploy scrapy spider to local scrapyd server" using the
+VS Code test explorer and running in debug mode (it fails running not in debug)
+
+
+Development
+-----------
 To support the development lifecycle, the following capabilities are supported
 - invoke the scrapy run from the development environment; for screen scraping code
 development
@@ -34,9 +56,6 @@ The service runs on Linux platform. This is necessary because the Playwright
 scraping library which is required to handle certain types of security is not 
 supported on Windows.  Hence the need to run the scraper as a web service. 
 
-Foreign exchange function is included in the suite. This uses a set of historic 
-GPB-USD exchange rates hosted on the project-specific MongoDB Atlas database.
-
 This is a development project. The configuration for VS Code, Behave and pytest
 features are included in the repository. Some of these will contain local 
 implementation details.
@@ -47,23 +66,11 @@ Deployment: Docker container, MongoDB Atlas cloud-hosted database
 Testing: Behave, pytest
 IDE: VS Code (some vs-specific debug configurations are included in the repo)
 
-To run the scraping service in various modes refer to the corresponding tests in 
-the Behave feature files or pytest or the instructions below.
-
-### Installation
-pip install requirements.txt
-
-pip install git+https://github.com/scrapy/scrapyd-client.git
-
-playwright install
-
-### Configure MongoDB connection
-Set envrionment variable MONGO_CONN_STRING=<mongodb-connectionstring>. 
-You may want to do this in .bashrc or VScode project settings.
-
 
 ### Run in VS Code
 
+To run the scraping service in various modes refer to the corresponding tests in 
+the Behave feature files or pytest or the instructions below.
 The project is set up to run code from tests: mostly Behave tests, and also
 some pytests for development phase. In production it is expected to be run as a 
 service in a container.

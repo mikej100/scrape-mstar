@@ -1,7 +1,7 @@
 Feature: Manage scrapyd
 As an service operations manager
 I want to manage scrapyd service
-So that the scraping services can be used by higher level python script
+So that the scraping services can be used by holdings analysis applications
 
 @test_start
 Scenario: Start scrapy on local host
@@ -13,6 +13,7 @@ Scenario: Start scrapy on local host when already running
 When scapyd is started on localhost
 Then scrapyd on localhost responds to a request
 
+@launch
 Scenario: Deploy scrapy spider to local scrapyd server
 Given scrapyd is running on localhost
 And default project is not deployed on scrapyd
