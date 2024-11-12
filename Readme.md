@@ -109,7 +109,7 @@ service in a container.
 Option 1. Install VS Code extension "Behave VSC". With this you can run 
 individual scenarios
 or features from the Test Explore or from the feature files, with option to run
-in debug
+in debug. Configure Behave VSC to look in tests/features for Behave tests.
 
 Option 2. Run from VS Code "Run and Debug" panel, using
 - Behave current file: will run current feature fle

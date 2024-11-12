@@ -10,6 +10,12 @@ And security type is "fund" and morningstar symbol is "F000013G37"
 When scrape-mstar is invoked
 Then "3" new documents are created in MongoDB Atlas database
 
+Scenario: Invoke a specific security call, write to MongoDB
+Given scrapy modules are in same project as this test
+And security type is "fund" and morningstar symbol is "F00000P869"
+When scrape-mstar is invoked
+Then "3" new documents are created in MongoDB Atlas database
+
 Scenario: Invoke one etf crawl running in same project, write to MongoDB
 Given scrapy modules are in same project as this test
 And security type is "etf" and morningstar symbol is "0P0001HZ0W"

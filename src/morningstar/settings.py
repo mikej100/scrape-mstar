@@ -101,7 +101,7 @@ MONGO_DB = "mstar"
 # See https://docs.scrapy.org/en/latest/topics/request-response.html
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 #
-LOG_FILE = 'logs/scrapy.log'
+LOG_FILE = 'log/scrapy.log'
 LOG_LEVEL = 'DEBUG'
 #
 # Download handlers for scrapy-playwright and use asyncio-based Twisted reactor

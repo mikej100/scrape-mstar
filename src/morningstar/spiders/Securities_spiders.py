@@ -14,7 +14,7 @@ logger = logging.getLogger("Securities_spiders")
 url_cef =   "https://www.morningstar.co.uk/uk/report/cef/quote.aspx?t={sym}&tab={view}"
 url_equity ="https://tools.morningstar.co.uk/uk/stockreport/default.aspx?tab=0{view}&SecurityToken={sym}%5d3%5d0%5dE0WWE$$ALL"
 url_etf =   "https://www.morningstar.co.uk/uk/etf/snapshot/snapshot.aspx?&id={sym}&tab={view}"
-url_fund =  "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}"
+url_fund =  "https://www.morningstar.co.uk/uk/funds/snapshot/snapshot.aspx?id={sym}&tab={view}&investmentType=SA"
 
 class FundsSpider(scrapy.Spider):
     name = "funds_all"
@@ -136,19 +136,20 @@ class FundsSpider(scrapy.Spider):
         top_sectors_text =response.xpath("//div[@id='overviewPortfolioTopSectorsDiv']//td/text()").getall()
         asset_allocation_text =response.xpath("//div[@id='overviewPortfolioAssetAllocationDiv']//td/text()").getall()
 
-        if len(top_region_text) >0 :
+        if len(top_region_text) >3 :
             tmp_table = np.asarray(top_region_text).reshape(6,2)
             tr_data = {"region": tmp_table[1:, 0].tolist(), "allocation": tmp_table[1:,1].tolist()}
         else:
             tr_data = "n/a"
 
-        if len(top_sectors_text) >0 :
+        if len(top_sectors_text) >3 :
+
             tmp_table = np.asarray(top_sectors_text).reshape(6,2)
             ts_data = {"sector": tmp_table[1:, 0].tolist(), "allocation": tmp_table[1:,1].tolist()}
         else:
             ts_data = "n/a"
 
-        if len(asset_allocation_text) >0 :
+        if len(asset_allocation_text) > 5 :
             tmp_table = np.asarray(asset_allocation_text[1:]).reshape(6,4)
             aa_data = {"type": tmp_table[1:, 0].tolist(), "allocation": tmp_table[1:,3].tolist()}
         else:
