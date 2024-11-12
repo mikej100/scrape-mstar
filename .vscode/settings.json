@@ -25,7 +25,11 @@
 "python.pythonPath": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/src/",
 "python.autoComplete.extraPaths": [
     
-], // "terminal.integrated.env.linux": {
+],
+"python.testing.pytestPath": "test/pytest",
+"python.terminal.activateEnvInCurrentTerminal": true,
+"python.envFile": "${workspaceFolder}/.venv",
+"behave-vsc.featuresPath": "test/features", // "terminal.integrated.env.linux": {
     //         "PATH": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env:${env:PATH}",
     //         "PYTHONPATH": "/home/mikejenn/projects/scrape-mstar_20230101/scrape-mstar/env:${env:PYTHONPATH}",
     // }

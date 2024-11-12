@@ -14,7 +14,7 @@ handlers:
     class: logging.FileHandler
     level: DEBUG
     formatter: simple
-    filename: logs/scrape-mstar.log
+    filename: log/scrape-mstar.log
 loggers:
   simpleExample:
     level: DEBUG

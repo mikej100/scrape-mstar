@@ -8,6 +8,7 @@ src/morningstar/logs/*
 data/*
 env/
 logs/*
+log/*
 !logs/.gitkeep
 venv/
 project.egg-info/

@@ -19,12 +19,24 @@ fund. Data retrieved includes market price, date, currency,
  The data is written to MongoDB database so that it can be queried by 
  the securities holdings analysis application.
 
-## Installation
-pip install requirements.txt
+ Installation
+===============
 
-pip install git+https://github.com/scrapy/scrapyd-client.git
+## Set up venv environment management
+### One time set up
+In the project root, create .venv here, activate and verify is active
+    sudo apt install python3.12-venv
+    python3 -m venv .venv
+    source .venv/bin/activate
+    which python
 
-playwright install
+
+    pip install -r requirements.txt
+    sudo apt-get install libxml2-dev libxslt-dev
+    pip install git+https://github.com/scrapy/scrapyd-client.git
+    pip install playwright
+    
+    playwright install
 
 ### Configure MongoDB connection
 Set envrionment variable MONGO_CONN_STRING=<mongodb-connectionstring>. 
@@ -33,11 +45,29 @@ You may want to do this in .bashrc or VScode project settings.
 To run 
 -----
 in the home directory, on the command line enter
+
+    source .venv/bin/activate
     scrapyd
 
 Or run the behave test "Deploy scrapy spider to local scrapyd server" using the
 VS Code test explorer and running in debug mode (it fails running not in debug)
 
+Troubleshooting
+---------------
+### Failure to submit job to scrapyd
+Steps to produce: submit a crawl job to scheduled on  scrapyd server.
+
+Expected result: Return a run_id for the job.
+
+Observed result: Submission request complets with 200 http request status, but 
+response status is "error" and end of error message includes 
+"KeyError: 'MONGO_CONN_STRING'". Look in log.txt file.
+
+Cause: environment variable MONGO_CONN_STRING not set, or set to wrong or out 
+out of date password value.
+
+Remedy: Set environmnet variable is to valid connection string in the environment in which scrapyd 
+was started. For example, check .bashrc includes lines to set the value, and that the value is correct according to configuration in admin in mondodb.com.
 
 Development
 -----------
@@ -71,6 +101,7 @@ IDE: VS Code (some vs-specific debug configurations are included in the repo)
 
 To run the scraping service in various modes refer to the corresponding tests in 
 the Behave feature files or pytest or the instructions below.
+
 The project is set up to run code from tests: mostly Behave tests, and also
 some pytests for development phase. In production it is expected to be run as a 
 service in a container.
